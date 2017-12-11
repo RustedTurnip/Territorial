@@ -3,4 +3,4 @@
  */
 #include "territorial.h"
 
-const std::string Territorial::version = "v0.1.0-dev";	/* At this point you change the games version number */
+const std::string Territorial::version = "v0.1.0";	/* At this point you change the games version number */
