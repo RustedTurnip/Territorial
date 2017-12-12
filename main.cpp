@@ -8,10 +8,11 @@
 #include "territorial.h"
 
 /* Globals */
-sf::RenderWindow window(sf::VideoMode(800, 500), "Territorial");
+sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Territorial", sf::Style::Fullscreen);
 
 /* Function Prototypes */
 void handleEvents();
+void handleKeyboardEvents(sf::Event event);
 
 /*!
  * \brief The main method from which the game is launched
@@ -40,6 +41,25 @@ void handleEvents() {
 		switch (event.type) {
 		case sf::Event::Closed:
 			window.close(); break;
+		case sf::Event::KeyReleased:
+		case sf::Event::KeyPressed:
+			handleKeyboardEvents(event); break;
 		}
+	}
+}
+
+/*!
+ * \brief This method handles keyboard events
+ */
+void handleKeyboardEvents(sf::Event event) {
+	if (event.type == sf::Event::KeyReleased) {
+		switch (event.key.code)
+		{
+		case sf::Keyboard::Escape:
+			window.close();  break;
+		}
+	}
+	else if(event.type == sf::Event::KeyPressed){
+		return;	//Temp
 	}
 }
