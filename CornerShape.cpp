@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "CornerShape.h"
 #include <iostream>
 

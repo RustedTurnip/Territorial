@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "TanimatedButton.h"
 
 #include <thread>
