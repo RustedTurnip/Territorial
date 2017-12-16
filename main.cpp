@@ -6,9 +6,11 @@
 #include <string>
 
 #include "territorial.h"
+#include "MenuView.h"
 
 /* Globals */
 sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Territorial", sf::Style::Fullscreen);
+MenuView menu(&window);
 
 /* Function Prototypes */
 void handleEvents();
@@ -23,9 +25,7 @@ int main()
 
 	while (window.isOpen()) {
 		handleEvents();
-
-		window.clear(sf::Color::White);
-		//Render method call here
+		menu.render();
 		window.display();
 	}
 
@@ -40,11 +40,12 @@ void handleEvents() {
 	while (window.pollEvent(event)) {
 		switch (event.type) {
 		case sf::Event::Closed:
-			window.close(); break;
+			window.close(); return;
 		case sf::Event::KeyReleased:
 		case sf::Event::KeyPressed:
-			handleKeyboardEvents(event); break;
+			handleKeyboardEvents(event); return;
 		}
+		menu.handleEvents(event);
 	}
 }
 
