@@ -5,6 +5,7 @@
 #define TERRITORIAL_H
 
 #include <string>
+#include <SFML/System.hpp>
 
 /*
  *\class Territorial : This class only contains static data. It acts as a host for global variables
@@ -16,6 +17,9 @@ private:
 public:
 	/* Getters */
 	static const std::string getVersion() { return version; }
+
+	/* Constants */
+	const static sf::Time TIME_PER_FRAME; /*!< This variable is used to define frame rate cap */
 };
 
 #endif /* !TERRITORIAL_H */

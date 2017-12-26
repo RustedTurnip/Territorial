@@ -4,3 +4,4 @@
 #include "territorial.h"
 
 const std::string Territorial::version = "v0.2.0";	/* At this point you change the games version number */
+const sf::Time Territorial::TIME_PER_FRAME = sf::seconds(1.f / 60.f);

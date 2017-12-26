@@ -22,9 +22,21 @@ void handleKeyboardEvents(sf::Event event);
 int main()
 {
 	std::cout << Territorial::getVersion() << std::endl;
-
+	
+	//Frame-rate regulation initialisation
+	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	
 	while (window.isOpen()) {
 		handleEvents();
+		
+		timeSinceLastUpdate += clock.restart();
+
+		while (timeSinceLastUpdate > Territorial::TIME_PER_FRAME) {	/* Skip render until events caught up */
+			timeSinceLastUpdate -= Territorial::TIME_PER_FRAME;
+			handleEvents();
+		}
+
 		menu.render();
 		window.display();
 	}
