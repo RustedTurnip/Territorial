@@ -6,11 +6,11 @@
 #include <string>
 
 #include "territorial.h"
-#include "MenuView.h"
+#include "ViewManager.h"
 
 /* Globals */
 sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Territorial", sf::Style::Fullscreen);
-MenuView menu(&window);
+ViewManager manager(&window);
 
 /* Function Prototypes */
 void setup();
@@ -42,7 +42,7 @@ int main()
 		}
 
 		Territorial::updateStatistics(elapsedTime);
-		menu.render();
+		manager.render();
 		window.display();
 	}
 
@@ -69,7 +69,7 @@ void handleEvents() {
 		case sf::Event::KeyPressed:
 			handleKeyboardEvents(event); return;
 		}
-		menu.handleEvents(event);
+		manager.handleEvents(event);
 	}
 }
 
