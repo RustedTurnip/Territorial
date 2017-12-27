@@ -1,5 +1,15 @@
 # Changelog
 ---
+#### v0.3.0 - [27-12-2017]
+###### Features:
+- Added Frame Rate regulation (in the form of a limit) within execution loop
+- Introduced a ViewManager system for controlling screen changes
+- Added redirection from the main menu to a blank GameView upon clicking any Menu button
+###### Bug Fixes:
+- N/A
+
+
+---
 #### v0.2.0 - [16-12-2017]
 ###### Features:
 - Made game's window fullscreen (using `esc` to close window)
