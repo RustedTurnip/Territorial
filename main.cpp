@@ -13,6 +13,7 @@ sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Territorial", sf::Styl
 MenuView menu(&window);
 
 /* Function Prototypes */
+void setup();
 void handleEvents();
 void handleKeyboardEvents(sf::Event event);
 
@@ -21,8 +22,10 @@ void handleKeyboardEvents(sf::Event event);
  */
 int main()
 {
-	std::cout << Territorial::getVersion() << std::endl;
+	std::cout << Territorial::version << std::endl;
 	
+	setup();
+
 	//Frame-rate regulation initialisation
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -30,18 +33,27 @@ int main()
 	while (window.isOpen()) {
 		handleEvents();
 		
-		timeSinceLastUpdate += clock.restart();
+		sf::Time elapsedTime = clock.restart();
+		timeSinceLastUpdate += elapsedTime;
 
 		while (timeSinceLastUpdate > Territorial::TIME_PER_FRAME) {	/* Skip render until events caught up */
 			timeSinceLastUpdate -= Territorial::TIME_PER_FRAME;
 			handleEvents();
 		}
 
+		Territorial::updateStatistics(elapsedTime);
 		menu.render();
 		window.display();
 	}
 
 	return 0;
+}
+
+/*!
+ * \brief Method to encompass any initialisations before beginning the game's execution
+ */
+void setup() {
+	window.setFramerateLimit(Territorial::FRAMERATE_LIMIT); //Implement framerate limit
 }
 
 /*!
