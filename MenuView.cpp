@@ -57,21 +57,12 @@ Identifiers::StateChange MenuView::handleEvents(sf::Event event) {
 }
 
 void MenuView::render() {
-
-	sf::RectangleShape testRect(sf::Vector2f(300, 50));
-	testRect.setPosition(1500, 850);
-	testRect.setFillColor(sf::Color::Red);
-
-	//test.setInFocus(false);
-
+	
 	getWindow()->clear(sf::Color::White);
-
 	getWindow()->draw(logo);
 
 	for (int i = 0; i < buttons.size(); i++)
 		getWindow()->draw(buttons.at(i));
-
-	//getWindow()->draw(testRect);
 }
 
 /*
