@@ -1,5 +1,16 @@
 # Changelog
 ---
+#### v0.4.0 - [28-12-2017]
+###### Features:
+- Added Reader to read in Map Data
+- Added map data to resource folder
+- Added a Territory class to be used to represent territories within the code
+###### Bug Fixes:
+- Pressing the left system key (windows key) minimises the window
+- Remove unused `stdafx.h` header called in some source files
+
+
+---
 #### v0.3.0 - [27-12-2017]
 ###### Features:
 - Added Frame Rate regulation (in the form of a limit) within execution loop
