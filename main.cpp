@@ -4,6 +4,7 @@
 #include <SFML\Graphics.hpp>
 #include <iostream>
 #include <string>
+#include <Windows.h>
 
 #include "territorial.h"
 #include "ViewManager.h"
@@ -82,9 +83,8 @@ void handleKeyboardEvents(sf::Event event) {
 		{
 		case sf::Keyboard::Escape:
 			window.close();  break;
+		case sf::Keyboard::LSystem:
+			ShowWindow(window.getSystemHandle(), SW_MINIMIZE); break;
 		}
-	}
-	else if(event.type == sf::Event::KeyPressed){
-		return;	//Temp
 	}
 }
