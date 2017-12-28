@@ -6,6 +6,7 @@
 
 #include "View.h"
 #include "Identifiers.h"
+#include "Game.h"
 
 #include <SFML\Graphics.hpp>
 
@@ -15,9 +16,10 @@
 class GameView : public View
 {
 	private:
+		Game game;
 
 	public:
-		/* COnstructor */
+		/* Constructor */
 		GameView(sf::RenderWindow*);
 
 		/* Overridden methods */

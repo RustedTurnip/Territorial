@@ -5,7 +5,10 @@
  */
 GameView::GameView(sf::RenderWindow* window)
 : View(window){ //Call Super Constructor
-
+	
+	/* TEMP */
+	Game game;
+	game.load();
 }
 
 /*
