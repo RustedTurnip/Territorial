@@ -1,5 +1,13 @@
 # Changelog
 ---
+#### v0.5.0 - [03-01-2018]
+###### Features:
+- Introduce Map class
+- Add map image to act as background for game
+- Integrate Map class with game
+###### Bug Fixes:
+- N/A
+
 #### v0.4.0 - [28-12-2017]
 ###### Features:
 - Added Reader to read in Map Data
