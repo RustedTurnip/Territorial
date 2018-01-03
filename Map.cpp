@@ -1,5 +1,5 @@
 #include "Map.h"
-#include "territorial.h"
+#include "Territorial.h"
 
 /*!
  * Constructor

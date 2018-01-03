@@ -1,7 +1,7 @@
 /*!
  * \file territorial.cpp : contains variable initialisations for the Territorial class
  */
-#include "territorial.h"
+#include "Territorial.h"
 #include <iostream>
 
 const std::string Territorial::version = "v0.5.1-dev";	/* At this point you change the games version number */

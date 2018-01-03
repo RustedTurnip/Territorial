@@ -6,7 +6,7 @@
 #include <string>
 #include <Windows.h>
 
-#include "territorial.h"
+#include "Territorial.h"
 #include "ViewManager.h"
 
 /* Globals */
