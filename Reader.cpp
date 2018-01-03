@@ -81,10 +81,6 @@ bool Reader::readMap(std::string mapLoc)
 
 				ss.str(""); ss.clear();		//Clears stringstream for next iteration
 			}
-
-			//Following line is test
-			std::cout << name << "::" << countryID << "::" << continentID << "::" << edges.size() << std::endl;
-
 			vertices.push_back(Territory(sf::Vector2f(x, y), name, continentID, countryID));
 		}
 	}
@@ -128,9 +124,6 @@ bool Reader::readContinents(std::string coordsLoc) {
 			ss << temp.at(2); ss >> top; ss.str(""); ss.clear();	//Read top
 			ss << temp.at(3); ss >> width; ss.str(""); ss.clear();	//Read width
 			ss << temp.at(4); ss >> height;	ss.str(""); ss.clear();	//Read height
-			
-			//Following line is test
-			std::cout << continentID << "::" << left << "::" << top << "::" << width << "::" << height << std::endl;
 
 			continentBounds.insert(std::make_pair(continentID, sf::FloatRect(left, top, width, height)));
 		}
