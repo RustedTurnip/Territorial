@@ -55,6 +55,7 @@ int main()
  */
 void setup() {
 	window.setFramerateLimit(Territorial::FRAMERATE_LIMIT); //Implement framerate limit
+	Territorial::setWindowSize(sf::Vector2f(window.getSize()));//Set window size global
 }
 
 /*!

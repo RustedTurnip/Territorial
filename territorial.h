@@ -17,7 +17,11 @@ private:
 	static size_t frameRateMonitor;
 	static size_t frameRateActual;
 	static sf::Time updateTime;
-	
+
+	/* Game's General Variables */
+	static sf::Vector2f windowSize; //Default: (1920.f, 1080.f)
+	static sf::Vector2f windowCentre; //Defualt ^/2
+
 public:
 	/* Constants */
 	const static std::string version; /* The version number of Territorial itself */
@@ -27,6 +31,12 @@ public:
 	/* Getters */
 	static size_t getFrameRate() { return frameRateActual; };
 	static sf::Time getUpdateTime() { return updateTime; };
+
+	static sf::Vector2f getWindowSize() { return windowSize; };
+	static sf::Vector2f getWindowCentre() { return windowCentre; };
+
+	/* Setters */
+	static void setWindowSize(sf::Vector2f);
 
 	/* Other methods */
 	static void updateStatistics(sf::Time);
