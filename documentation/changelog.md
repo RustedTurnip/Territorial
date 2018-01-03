@@ -1,11 +1,16 @@
 # Changelog
 ---
+#### v0.5.1 - [03-01-2018]
+###### Patches:
+- Renamed territorial.h and territorial.cpp to Territorial.h and Territorial.cpp respectively
+- Removed arbitrary test print statements from Reader.cpp
+
 #### v0.5.0 - [03-01-2018]
 ###### Features:
 - Introduce Map class
 - Add map image to act as background for game
 - Integrate Map class with game
-###### Bug Fixes:
+###### Patches:
 - N/A
 
 #### v0.4.0 - [28-12-2017]
@@ -13,7 +18,7 @@
 - Added Reader to read in Map Data
 - Added map data to resource folder
 - Added a Territory class to be used to represent territories within the code
-###### Bug Fixes:
+###### Patches:
 - Pressing the left system key (windows key) minimises the window
 - Remove unused `stdafx.h` header called in some source files
 
@@ -24,7 +29,7 @@
 - Added Frame Rate regulation (in the form of a limit) within execution loop
 - Introduced a ViewManager system for controlling screen changes
 - Added redirection from the main menu to a blank GameView upon clicking any Menu button
-###### Bug Fixes:
+###### Patches:
 - N/A
 
 
@@ -37,7 +42,7 @@
 - Add res/ directory including Territorial title logo and cinzel font
 - Add Identifiers.h header (with some pre-emptive data)
 - Add Territorial main menu
-###### Bug Fixes:
+###### Patches:
 - Remove unused `stdafx.h` header called in some source files
 
 
@@ -47,7 +52,7 @@
 - Created 'master' loop in which the game will run, providing a platform on which the game will be developed
 - Created an arbitrarily sized window that the game will render to
 - Configure a top-level class to safely store global data (i.e. version number)
-###### Bug Fixes:
+###### Patches:
 - N/A
 
 
