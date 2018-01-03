@@ -1,5 +1,5 @@
 /*!
- * \file GameView.h : this class holds the class del=claration for GameView
+ * \file GameView.h : this class holds the class declaration for GameView
  */
 #ifndef GAME_VIEW_H
 #define GAME_VIEW_H

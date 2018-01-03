@@ -5,6 +5,7 @@
 #define GAME_H
 
 #include "Reader.h"
+#include "Map.h"
 
 /*!
  * \brief This class is responsible for holding the game itself and controlling the games flow
@@ -15,6 +16,7 @@ private:
 	/* Member variables */
 	std::vector<Territory> territories;
 	std::map<int, sf::FloatRect> continentBounds;
+	Map map; /*< Stores the map used for game */
 
 public:
 	/* Constructor */
@@ -25,6 +27,9 @@ public:
 
 	/* Other Methods */
 	bool load();
+
+	/* TEMP METHODS */
+	void drawGame(sf::RenderWindow&); /*!< \todo Consider if Game should be sf::drawable*/
 };
 
 #endif // !GAME_H
