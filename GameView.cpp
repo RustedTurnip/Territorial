@@ -1,4 +1,5 @@
 #include "GameView.h"
+#include "LoadingScreen.h"
 
 /*!
  * \brief GameView Constructor
@@ -6,7 +7,10 @@
 GameView::GameView(sf::RenderWindow* window)
 : View(window){ //Call Super Constructor
 
+	LoadingScreen loading(window);
+	loading.run();
 	game.load();
+	loading.terminate();
 }
 
 /*!
