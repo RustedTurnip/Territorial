@@ -5,7 +5,7 @@
 #include <iostream>
 
 const std::string Territorial::version = "v0.6.0-dev";	/* At this point you change the games version number */
-const sf::Time Territorial::TIME_PER_FRAME = sf::seconds(1.f / 20);
+const sf::Time Territorial::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 const float Territorial::FRAMERATE_LIMIT = 60.f;
 
 /* Statistics static variables initialisation */
