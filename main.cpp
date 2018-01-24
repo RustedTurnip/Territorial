@@ -8,6 +8,7 @@
 
 #include "Territorial.h"
 #include "ViewManager.h"
+#include "SplashScreen.h"
 
 /* Globals */
 sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Territorial", sf::Style::Fullscreen);
@@ -17,6 +18,7 @@ ViewManager manager(&window);
 void setup();
 void handleEvents();
 void handleKeyboardEvents(sf::Event event);
+void splash();
 
 /*!
  * \brief The main method from which the game is launched
@@ -56,6 +58,8 @@ int main()
 void setup() {
 	window.setFramerateLimit(Territorial::FRAMERATE_LIMIT); //Implement framerate limit
 	Territorial::setWindowSize(sf::Vector2f(window.getSize()));//Set window size global
+
+	splash();
 }
 
 /*!
@@ -89,3 +93,13 @@ void handleKeyboardEvents(sf::Event event) {
 		}
 	}
 }
+
+/*!
+ * \brief Launches the splash screen
+ * \TODO better integrate splash screen, seperate control loop seems excessive perhaps? But would it add to much to main loop?
+ */
+void splash() {
+	SplashScreen splash("res/images/canalside_splash.png", 7000, window);
+	splash.run();
+}
+
