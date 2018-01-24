@@ -1,5 +1,12 @@
 # Changelog
 ---
+#### v0.6.0 - [24-01-2018]
+###### Features:
+- Loading screen, with implementation between `MenuView` and `GameView`
+- Add Splash screen with implementation (using placeholder canalside_splash.png)
+###### Patches:
+- Update fixed master loop rate to 1/60 of a second
+
 #### v0.5.1 - [03-01-2018]
 ###### Patches:
 - Renamed territorial.h and territorial.cpp to Territorial.h and Territorial.cpp respectively
