@@ -7,11 +7,15 @@
 ###### Patches:
 - Update fixed master loop rate to 1/60 of a second
 
+
+---
 #### v0.5.1 - [03-01-2018]
 ###### Patches:
 - Renamed territorial.h and territorial.cpp to Territorial.h and Territorial.cpp respectively
 - Removed arbitrary test print statements from Reader.cpp
 
+
+---
 #### v0.5.0 - [03-01-2018]
 ###### Features:
 - Introduce Map class
@@ -20,6 +24,8 @@
 ###### Patches:
 - N/A
 
+
+---
 #### v0.4.0 - [28-12-2017]
 ###### Features:
 - Added Reader to read in Map Data
