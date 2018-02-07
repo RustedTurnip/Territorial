@@ -3,7 +3,7 @@
 #include <ctime>
 #include <iostream>
 
-bool LoadingScreen::isRunning = false;
+std::atomic<bool> LoadingScreen::isRunning = false;
 
 /*
  * Constructor -- Destructor
@@ -40,7 +40,7 @@ void LoadingScreen::animation() {
 	std::string str = "Loading";
 	size_t count = 0, startTime = clock();
 
-	while (isRunning) {
+	while (isRunning.load()) {
 
 		if ((clock() - startTime) / (CLOCKS_PER_SEC / 1000) >= 500) {	//If half a second has passed
 			startTime = clock();	//Reset timer
@@ -66,6 +66,6 @@ void LoadingScreen::run() {
 
 	window->setActive(false);	//Switching over to new thread temporarily, switching back is automatic I think
 	isRunning = true;
-	std::thread t(&LoadingScreen::animation, this);
-	t.detach();
+	screenThread = std::thread(&LoadingScreen::animation, this);
+	screenThread.detach();
 }

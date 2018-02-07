@@ -6,6 +6,7 @@
 #define LOADING_SCREEN_H
 
 #include <thread>
+#include <atomic>
 #include <SFML\Graphics.hpp>
 
 /*!
@@ -15,7 +16,7 @@ class LoadingScreen {
 
 	private:
 		sf::RenderWindow* window;
-		static bool isRunning;// = false;
+		static std::atomic<bool> isRunning;// = false;
 
 		void initialise();
 		void animation();
@@ -23,6 +24,7 @@ class LoadingScreen {
 		/* Attributes */
 		sf::Font font;	//Will be changed when global resources implemented
 		sf::Text text;
+		std::thread screenThread;
 
 	public:
 		/* Constructor -- Destructor */
@@ -31,7 +33,7 @@ class LoadingScreen {
 		void terminate() { isRunning = false; };
 		void run();	/*!< runs the Loading Screen */
 
-		static bool getIsRunning() { return isRunning; };
+		static bool getIsRunning() { return isRunning.load(); };
 };
 
 #endif // !LOADING_SCREEN_H
