@@ -5,6 +5,7 @@
 #define SPLASH_SCREEN_H
 
 #include <string>
+#include <thread>
 #include <SFML\Graphics.hpp>
 
 /*!
@@ -21,6 +22,7 @@ class SplashScreen {
 		size_t duration;
 		bool valid = false;
 		size_t fadeTime;
+		std::thread animationThread;
 
 		/* Member methods */
 		void centreIcon();

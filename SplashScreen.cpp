@@ -53,8 +53,8 @@ void SplashScreen::centreIcon(){
  */
 void SplashScreen::animation() {
 
-	std::thread animation(&SplashScreen::fade, this);
-	animation.detach();
+	animationThread = std::thread(&SplashScreen::fade, this);
+	animationThread.detach();
 }
 
 /*!
