@@ -8,23 +8,16 @@ Game::Game(){
 }
 
 /*!
- * \brief responsible for loading game data in from file
+ * \brief responsible for loading/setting up game- map related loading is handled within Map::load()
  * \TODO : call load function in constructor
+		 : pass map location to map
  */
 bool Game::load() {
 
 	Reader reader;
-	std::string mapLoc = "res/maps/world/AdjacencyListCoords.txt";//Temp
-	std::string coordsLoc = "res/maps/world/ContinentBounds.txt";//Temp
 	
 	if (!map.load("res/maps/world/world.png")) //Eventually there will be map selection
 		return false;
-
-	if (reader.readAll(mapLoc, coordsLoc)) {
-		territories = reader.getVertices();
-		continentBounds = reader.getContinentBounds();
-		return true;
-	}
 
 	return false;
 }

@@ -77,7 +77,7 @@ bool Territory::dealDamage(float damage) {
 bool Territory::loadOverlay(sf::Vector2f offSet) {
 
 	try {
-		std::string loc = "res/maps/CountryOverlays/";
+		std::string loc = "res/maps/world/CountryOverlays/";
 		loc += std::to_string(continent) + "/";
 		loc += std::to_string(territoryID) + ".png";
 
@@ -104,7 +104,7 @@ bool Territory::loadOverlay(sf::Vector2f offSet) {
 bool Territory::loadShape(sf::Vector2f offSet) {
 	
 	try {
-		std::string loc = "res/maps/CountryImages/";
+		std::string loc = "res/maps/world/CountryImages/";
 		loc += std::to_string(continent) + "/";
 		loc += std::to_string(territoryID) + ".png";
 

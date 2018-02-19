@@ -128,8 +128,7 @@ bool Reader::readContinents(std::string coordsLoc) {
 			continentBounds.insert(std::make_pair(continentID, sf::FloatRect(left, top, width, height)));
 		}
 	}
-	catch (std::exception &e)
-	{
+	catch (std::exception &e){
 		std::cerr << "Exception: " << e.what() << std::endl;
 		std::cerr << "Exception Type: " << typeid(e).name() << std::endl;
 	}

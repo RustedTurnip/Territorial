@@ -14,16 +14,11 @@ class Game
 {
 private:
 	/* Member variables */
-	std::vector<Territory> territories;
-	std::map<int, sf::FloatRect> continentBounds;
 	Map map; /*< Stores the map used for game */
 
 public:
 	/* Constructor */
 	Game();
-
-	/* Getters */
-	std::vector<Territory>& getTerritories() { return territories; };
 
 	/* Other Methods */
 	bool load();

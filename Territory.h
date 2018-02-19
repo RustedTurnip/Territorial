@@ -63,9 +63,9 @@ class Territory {
 		int getTerritoryID() const { return territoryID; };
 		bool getOverlaySet() const { return overlaySet; };
 		sf::Vector2f getCoords() const { return coords; };
-		sf::Sprite& getOverlay() { return overlaySprite; };
+		const sf::Sprite& getOverlay() const { return overlaySprite; };
 
-		sf::Sprite& getShape() { return territoryShapeSprite; };
+		const sf::Sprite& getShape() const { return territoryShapeSprite; };
 
 		bool isOver(sf::Vector2f);
 

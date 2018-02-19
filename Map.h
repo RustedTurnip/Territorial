@@ -4,7 +4,10 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <vector>
 #include <SFML\Graphics.hpp>
+
+#include "Territory.h"
 
 /*!
  * \brief this class represents a drawable map
@@ -15,6 +18,10 @@ private:
 	/* Private Members */
 	sf::Texture mapBackTexture;
 	sf::Sprite mapBackSprite;
+
+	std::vector<Territory> territories;
+	std::vector<std::vector<Territory*>> mapSplit;
+	std::map<int, sf::FloatRect> continentBounds;
 
 	float zeroZoom = 0.f;
 	sf::View mapView;
@@ -30,7 +37,7 @@ public:
 	Map();
 
 	/* Methods */
-	bool load(std::string); /*!< Load selected map from file */
+	bool load(std::string); /*!< \TODO remove second param \brief Load selected map from file */
 	void zeroView() { mapView.zoom(zeroZoom); }; /*!< Reset map zoom to '0'*/
 };
 
