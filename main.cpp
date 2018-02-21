@@ -7,6 +7,7 @@
 #include <Windows.h>
 
 #include "Territorial.h"
+#include "Mouse.h"
 #include "ViewManager.h"
 #include "SplashScreen.h"
 
@@ -58,6 +59,7 @@ int main()
 void setup() {
 	window.setFramerateLimit(Territorial::FRAMERATE_LIMIT); //Implement framerate limit
 	Territorial::setWindowSize(sf::Vector2f(window.getSize()));//Set window size global
+	Mouse::setWindow(&window);
 
 	splash();
 }
