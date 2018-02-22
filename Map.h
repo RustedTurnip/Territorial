@@ -14,6 +14,10 @@
  */
 class Map : public sf::Drawable
 {
+	enum MapEvents {
+		Battle,
+		None
+	};
 private:
 	/* Private Members */
 	sf::Texture mapBackTexture;
@@ -22,6 +26,8 @@ private:
 	std::vector<Territory> territories;
 	std::vector<std::vector<Territory*>> mapSplit;
 	std::map<int, sf::FloatRect> continentBounds;
+
+	Territory* inFocus = nullptr;
 
 	float zeroZoom = 0.f;
 	sf::View mapView;
@@ -37,8 +43,13 @@ public:
 	Map();
 
 	/* Methods */
-	bool load(std::string); /*!< \TODO remove second param \brief Load selected map from file */
+	bool load(std::string); /*!< \brief Load selected map from file */
 	void zeroView() { mapView.zoom(zeroZoom); }; /*!< Reset map zoom to '0'*/
+
+	/* Event methods */
+	MapEvents handleEvents(sf::Event);
+	void handleMouseMove();
+	bool territoryColision(int, sf::Vector2f);
 };
 
 #endif // !MAP_H

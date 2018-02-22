@@ -28,3 +28,10 @@ bool Game::load() {
 void Game::drawGame(sf::RenderWindow& window) {
 	window.draw(map);
 }
+
+/*
+* \brief responsible for handling game events
+*/
+void Game::handleEvents(sf::Event event){
+	map.handleEvents(event);
+}

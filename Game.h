@@ -20,6 +20,9 @@ public:
 	/* Constructor */
 	Game();
 
+	/* Core Mthods */
+	void handleEvents(sf::Event); /* Return type TBD */
+
 	/* Other Methods */
 	bool load();
 

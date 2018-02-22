@@ -25,5 +25,6 @@ void GameView::render() {
  * \brief Handles Events relavent to the GameView
  */
 Identifiers::StateChange GameView::handleEvents(sf::Event event) {
+	game.handleEvents(event);
 	return Identifiers::DoNothing;
 }

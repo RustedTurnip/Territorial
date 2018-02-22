@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "Territorial.h"
 #include "Reader.h"
+#include "Mouse.h"
 
 /*!
  * Constructor
@@ -17,9 +18,8 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.setView(mapView);
 	target.draw(mapBackSprite);
 
-	for (int i = 0; i < territories.size(); i++) {
-		target.draw(territories.at(i).getOverlay());
-	}
+	if (inFocus != nullptr)
+		target.draw(inFocus->getOverlay());
 
 	target.setView(target.getDefaultView());	//Change back (to draw other guis over top)
 }
@@ -39,6 +39,12 @@ bool Map::load(std::string loc) {
 	if (reader.readAll(mapLoc, coordsLoc)) {
 		territories = reader.getVertices();
 		continentBounds = reader.getContinentBounds();
+
+		std::map<int, sf::FloatRect>::iterator it;
+		for (it = continentBounds.begin(); it != continentBounds.end(); it++) {
+			it->second.left += mapBackSprite.getPosition().x;
+			it->second.top += mapBackSprite.getPosition().y;
+		}
 	}
 	else {
 		return false; //TODO print ERR
@@ -88,4 +94,77 @@ void Map::setupMap() {
 	sf::Vector2f toSet(Territorial::getWindowCentre().x - (mapBackTexture.getSize().x / 2),
 		Territorial::getWindowCentre().y - (mapBackTexture.getSize().y / 2));
 	mapBackSprite.setPosition(toSet);
+
+	std::map<int, sf::FloatRect>::iterator it;
+	for (it = continentBounds.begin(); it != continentBounds.end(); it++) {
+		it->second.left += mapBackSprite.getPosition().x;
+		it->second.top += mapBackSprite.getPosition().y;
+	}
+}
+
+
+/*
+* /////////////////////// EVENT METHODS ///////////////////////
+*/
+
+
+/*!
+ * \brief standard method, handles any events of concern to the Map
+ */
+Map::MapEvents Map::handleEvents(sf::Event event) {
+	sf::Vector2f mousePos(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+
+	MapEvents mapEvent = MapEvents::None;	//Reset event
+
+	switch (event.type) {
+	case sf::Event::MouseMoved: {
+
+		sf::Vector2i mousePos = Mouse::getMousePosition();
+		sf::Vector2f worldPos = Mouse::mapPixelToCoords(mousePos, mapView);
+		handleMouseMove(); break;
+	}
+	}
+
+	return mapEvent;
+}
+
+
+/*!
+ * \brief this method is responsible for identifying events triggered by mouse movement over the map
+ */
+void Map::handleMouseMove() {
+	/* Get relevant mouse data */
+	sf::Vector2i mousePos = Mouse::getMousePosition();
+	sf::Vector2f worldPos = Mouse::mapPixelToCoords(mousePos, mapView);
+
+	/* If mouse is over a continent, check for territory collision in that continent */
+	std::map<int, sf::FloatRect>::iterator it;
+	for (it = continentBounds.begin(); it != continentBounds.end(); it++) {
+		if (it->second.contains(worldPos)) {
+			if (territoryColision(it->first, worldPos))
+				return;
+		}
+	}
+}
+
+
+/*!
+ * \brief This method is used to check if mouse is over a terriotry IN A GIVEN CONTINENT
+ * \param continentID : used to restrict search to a single continent
+ */
+bool Map::territoryColision(int continentID, sf::Vector2f worldPos) {
+
+	/* Check mouse is within bounds of current territory */
+	for (Territory* t : mapSplit.at(continentID)){
+
+		/* Pixel perfect detection */
+		if (t->getOverlay().getGlobalBounds().contains(worldPos)) {
+			if (t->isOver(worldPos)) {
+				this->inFocus = t;
+				return true;
+			}
+		}
+	}
+	this->inFocus = nullptr;
+	return false;
 }
