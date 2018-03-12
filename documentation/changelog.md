@@ -1,5 +1,14 @@
 # Changelog
 ---
+#### v0.7.0 - [DD-MM-2018]
+###### Features:
+- Introduce interactive map (with overlays being displayed for each Territory when the mouse is over it)
+###### Patches:
+- Fix thread scope issues that would cause threads to terminate prematurely causing undefined behaviour
+- Add thread synchronisation to the LoadingScreen class to prevent the potential for race conditions
+
+
+---
 #### v0.6.0 - [24-01-2018]
 ###### Features:
 - Loading screen, with implementation between `MenuView` and `GameView`
