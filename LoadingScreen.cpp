@@ -57,9 +57,7 @@ void LoadingScreen::animation() {
 		window->draw(text);
 		window->display();
 	}
-
-	/*! \TODO : Investigate this line, works on previous but not now */
-	//window->setActive(false);
+	window->setActive(false);
 }
 
 void LoadingScreen::run() {
@@ -67,5 +65,13 @@ void LoadingScreen::run() {
 	window->setActive(false);	//Switching over to new thread temporarily, switching back is automatic I think
 	isRunning = true;
 	screenThread = std::thread(&LoadingScreen::animation, this);
-	screenThread.detach();
+}
+
+/*!
+ * \brief used to safely terminate the loading screen preventing undefined behaviour and safe transfer 
+ *		of the windows context
+ */
+void LoadingScreen::terminate() {
+	isRunning = false;
+	screenThread.join();
 }

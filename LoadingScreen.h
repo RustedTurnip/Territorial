@@ -30,7 +30,7 @@ class LoadingScreen {
 		/* Constructor -- Destructor */
 		LoadingScreen(sf::RenderWindow*);
 
-		void terminate() { isRunning = false; };
+		void terminate();
 		void run();	/*!< runs the Loading Screen */
 
 		static bool getIsRunning() { return isRunning.load(); };
