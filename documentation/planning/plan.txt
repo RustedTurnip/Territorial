@@ -1,0 +1,99 @@
+Territorial - ToDo
+======================================================
+
+Current Version -- v0.2.0
+---------------------------
+
+
+v0.3.0
+------
+- Introduce ViewManager
+    - will be sub-commited
+
+- Have buttons redirect through view manager to nothing
+- Global framerate counter & cap - (global render - utilising Territorial class)
+
+
+v0.4.0
+------
+- Implement 'reader' class and Territory representation within program
+- Introduce with previous a Territory list
+- Remove printing from Reader class
+- Pass Paths to Reader (remove hard code)
+Bug Fix
+- Pressing Windows Key minimises Game
+
+
+v0.5.0
+------
+- Introduce map class
+- Introduce single image of map into res
+- Display map when Game loads
+Patch
+- 
+******* Where is my mind? - Maxence Cyrin *******
+
+
+v0.5.1
+------
+Patches
+- Rename territorial.h & territorial.cpp to Territorial.h & Territorial.cpp
+- REMOVE PRINTING FROM READER CLASS
+
+
+
+
+v0.6.0
+------
+- Loading Screen
+    - Will need to sub-divide
+- Add Game Splash screen
+	- Black background, white text... Animation perhaps
+Patches
+- N/A
+
+
+
+
+v0.7.0
+------
+- Introduce interactive map
+    - Add loading in of textures for each territory
+    - Move Reader to Map class as map should be responsible for everything map related
+	- Game class should only handle controlling of game*****
+Patches
+- N/A
+
+
+v0.7.1 -- Current
+------
+- To do below, will need to re-locate the Continent Identifiers to somewhere more appropriate
+	- And will need to move State changes to Viewmanager (most apt place if declared as static I think)
+- Implement resource manager/handler as can't continue in current state
+
+v0.7.2
+------
+-Introduce source code sub-structure
+-Introduce a Map reader as Map shouldn't be responsible for having to load itself
+
+
+
+Future
+======================================================
+Map file type
+Overhaul of graphics
+Decide whether to move Main loop to Territorial class or not
+Optimise Button Animations
+Look for more accurate way to cap frame rate other than window.setFramerateLimit()
+Update Comments throughout code (stdafx also)
+	-ViewManager.cpp
+	-Territory.cpp
+
+- Loading Screen Parent class (abstract), that lets you add anything for rendering
+	-Perhaps loading screen that takes Image/Video as parameter
+
+
+Post v1.0.0
+======================================================
+Campaign
+Changelog for users independent of dev changelog
