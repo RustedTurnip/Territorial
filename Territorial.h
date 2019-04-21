@@ -6,6 +6,7 @@
 
 #include <string>
 #include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 /*
  *\class Territorial : This class only contains static data. It acts as a host for global variables
@@ -22,11 +23,15 @@ private:
 	static sf::Vector2f windowSize; //Default: (1920.f, 1080.f)
 	static sf::Vector2f windowCentre; //Defualt ^/2
 
+
 public:
 	/* Constants */
 	const static std::string version; /* The version number of Territorial itself */
 	const static sf::Time TIME_PER_FRAME; /*!< Maximum frame RENDER time */
 	const static float FRAMERATE_LIMIT; /*!< Constant defines global frame rate limit */
+	
+	/* Game's GLobal Resources */
+	static sf::Font mainFont;
 	
 	/* Getters */
 	static size_t getFrameRate() { return frameRateActual; };
@@ -40,6 +45,9 @@ public:
 
 	/* Other methods */
 	static void updateStatistics(sf::Time);
+
+	/* Game Initialisation */
+	static void initialiseResources();
 };
 
 #endif /* !TERRITORIAL_H */

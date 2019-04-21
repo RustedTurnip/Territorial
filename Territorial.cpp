@@ -17,6 +17,9 @@ sf::Time Territorial::updateTime = sf::Time::Zero;
 sf::Vector2f Territorial::windowSize = sf::Vector2f(1920.f, 1080.f);
 sf::Vector2f Territorial::windowCentre = sf::Vector2f(960.f, 540.f);
 
+/* Global resources */
+sf::Font Territorial::mainFont = sf::Font();
+
 /*!
  * \brief This method updates statistics of the games exectution - e.g. FrameRate
  */
@@ -39,5 +42,16 @@ void Territorial::setWindowSize(sf::Vector2f size) {
 	if (size.x >= 800.f || size.y >= 600) {
 		windowSize = size;
 		windowCentre = sf::Vector2f(windowSize.x/2, windowSize.y/2);
+	}
+}
+
+/*
+/////////////////// INITIALISE ///////////////////
+*/
+void Territorial::initialiseResources() {
+	/* Load font */
+	std::string fontLoc = "res/fonts/cinzel.otf";
+	if (!mainFont.loadFromFile(fontLoc)) {
+		std::cerr << "Failed to load font: " << fontLoc << std::endl;
 	}
 }

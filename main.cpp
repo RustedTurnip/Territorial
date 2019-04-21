@@ -61,6 +61,8 @@ void setup() {
 	Territorial::setWindowSize(sf::Vector2f(window.getSize()));//Set window size global
 	Mouse::setWindow(&window);
 
+	Territorial::initialiseResources();
+
 	splash();
 }
 
