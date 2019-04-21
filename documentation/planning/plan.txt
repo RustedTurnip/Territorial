@@ -105,6 +105,12 @@ Update Comments throughout code (stdafx also)
 	-ViewManager.cpp
 	-Territory.cpp
 
+---------------------------------
+Global Font (and other resources)
+Flesh this out (and tidy up)
+---------------------------------
+
+
 - Loading Screen Parent class (abstract), that lets you add anything for rendering
 	-Perhaps loading screen that takes Image/Video as parameter
 

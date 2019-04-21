@@ -12,6 +12,7 @@
 #include <set>
 #include "Identifiers.h"
 #include <math.h>
+#include "UnitDisplay.h"
 
 /*!
 	\brief This class is the equivalent of a country in the game RISK
@@ -32,6 +33,8 @@ class Territory {
 		sf::Texture territoryShapeText;
 		sf::Sprite territoryShapeSprite;
 		sf::Image territoryShapeImage;
+
+		UnitDisplay unitDisplay;
 
 		sf::Vector2f coords;
 		bool overlaySet = false;
@@ -63,6 +66,7 @@ class Territory {
 		int getTerritoryID() const { return territoryID; };
 		bool getOverlaySet() const { return overlaySet; };
 		sf::Vector2f getCoords() const { return coords; };
+		const UnitDisplay& getUnitDisplay() const { return unitDisplay; };
 		const sf::Sprite& getOverlay() const { return overlaySprite; };
 
 		const sf::Sprite& getShape() const { return territoryShapeSprite; };
@@ -73,6 +77,8 @@ class Territory {
 		void setUnits(size_t units) { this->units = units; };
 		void addUnits(float units) { this->units += units; };
 		bool dealDamage(float);
+
+		void positionUnitCounter(sf::Vector2f);
 
 };
 

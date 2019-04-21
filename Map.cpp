@@ -14,12 +14,16 @@ Map::Map() {
  * \brief inherited from sf::Drawable, this method makes the class.. Drawable
  */
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	
+
 	target.setView(mapView);
 	target.draw(mapBackSprite);
 
 	if (inFocus != nullptr)
 		target.draw(inFocus->getOverlay());
+
+	for (Territory t : territories) {
+		target.draw(t.getUnitDisplay());
+	}
 
 	target.setView(target.getDefaultView());	//Change back (to draw other guis over top)
 }
@@ -57,7 +61,7 @@ bool Map::load(std::string loc) {
 
 	setupMap();
 
-	//Load territory overlays
+	//Load territory overlays and set counter
 	for (int i = 0; i < territories.size(); i++) {
 		if (territories.at(i).getOverlaySet())
 			territories.at(i).loadOverlay(mapBackSprite.getPosition());
@@ -67,6 +71,7 @@ bool Map::load(std::string loc) {
 			mapSplit.push_back(std::vector<Territory*>());
 		}
 		mapSplit.at(territories.at(i).getContinent()).push_back(&territories.at(i));
+		territories.at(i).positionUnitCounter(mapBackSprite.getPosition());
 	}
 
 	return true;

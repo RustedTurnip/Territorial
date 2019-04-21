@@ -46,6 +46,11 @@ Territory::Territory(const Territory& obj) {
 	territoryID = obj.getTerritoryID();
 	overlaySet = obj.getOverlaySet();
 
+	/* TEMP - replcae with copying of object (add copy constructor to UnitDisplay class) */
+	unitDisplay.setColour(obj.getUnitDisplay().getColour());
+	unitDisplay.setNumber(obj.getUnitDisplay().getUnits());
+	unitDisplay.setPosition(obj.getUnitDisplay().getPosition());
+
 	if (overlaySet)
 		coords = obj.getCoords();
 }
@@ -135,4 +140,13 @@ bool Territory::isOver(sf::Vector2f worldPos) {
 		return true;
 
 	return false;
+}
+
+void Territory::positionUnitCounter(sf::Vector2f offset) {
+
+	sf::Vector2f position = sf::Vector2f(coords.x + offset.x, coords.y + offset.y);
+	position.x += overlayText.getSize().x / 2;
+	position.y += overlayText.getSize().y / 2;
+
+	unitDisplay.setPosition(position);
 }
