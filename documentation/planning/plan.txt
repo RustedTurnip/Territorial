@@ -65,21 +65,37 @@ Patches
 - N/A
 
 
-v0.7.1 -- Current
+v0.8.0 -- Current
+------
+- Change versioning so that the  '-dev' suffix appended to the last version, not the anticipated next one
+- Introduce unit circles to territories - using default colour for now untl player colours are introduced
+
+- Add notion of players
+	-On a players turn, they may choose a territory and that players colour will become that of the territories
+		as a means to test the player inclusion (i.e. this feature will be ~temporary)
+
+
+
+
+
+
+
+
+Future
+======================================================
+vx.x.x
 ------
 - To do below, will need to re-locate the Continent Identifiers to somewhere more appropriate
 	- And will need to move State changes to Viewmanager (most apt place if declared as static I think)
 - Implement resource manager/handler as can't continue in current state
 
-v0.7.2
+vx.x.x
 ------
 -Introduce source code sub-structure
 -Introduce a Map reader as Map shouldn't be responsible for having to load itself
 
 
 
-Future
-======================================================
 Map file type
 Overhaul of graphics
 Decide whether to move Main loop to Territorial class or not
