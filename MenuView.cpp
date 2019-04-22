@@ -30,7 +30,7 @@ Identifiers::StateChange MenuView::handleEvents(sf::Event event) {
 		for (int i = 0; i < buttons.size(); i++) {
 			if (buttons.at(i).getGlobalBounds().contains(mousePos)) {
 				/* Note to self -- Think about button struct - part StateIdentifier, part Button - return buttons[i].state */
-				return Identifiers::PlayGame;
+				return Identifiers::SetupGame;
 			}
 			else
 				buttons.at(i).setInFocus(false);

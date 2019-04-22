@@ -40,6 +40,10 @@ void ViewManager::handleEvents(sf::Event event) {
 void ViewManager::loadView(Identifiers::StateChange state) {
 
 	switch (state) {
+	case Identifiers::StateChange::SetupGame: {
+		gameSetup = new GameSetupView(window);
+		currentState = gameSetup; break;
+	}
 	case Identifiers::StateChange::PlayGame: {
 		game = new GameView(window);
 		currentState = game; break;

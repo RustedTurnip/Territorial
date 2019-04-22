@@ -29,6 +29,7 @@ namespace Identifiers {
 	enum StateChange {
 		DoNothing,
 		MainMenu,
+		SetupGame,
 		PlayGame,
 		Settings,
 		Instructions,

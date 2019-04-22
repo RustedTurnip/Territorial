@@ -7,6 +7,7 @@
 #include <SFML\Graphics.hpp>
 #include "View.h"
 #include "MenuView.h"
+#include "GameSetupView.h"
 #include "GameView.h"
 
 /*!
@@ -20,6 +21,7 @@ class ViewManager {
 		View* currentState;
 
 		MenuView* mainMenu;
+		GameSetupView* gameSetup;
 		GameView* game;
 
 		//Load Screens
