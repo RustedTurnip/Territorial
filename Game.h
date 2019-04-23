@@ -16,6 +16,11 @@ private:
 	/* Member variables */
 	Map map; /*< Stores the map used for game */
 
+/* Game Constants */
+public:
+	static const size_t PLAYER_MINIMUM = 2;
+	static const size_t PLAYER_MAXIMUM = 5;
+
 public:
 	/* Constructor */
 	Game();

@@ -1,5 +1,6 @@
 #include "GameSetupView.h"
 #include "Territorial.h"
+#include "Game.h"
 
 /*
 Constructor -- Destructor
@@ -217,6 +218,10 @@ Rest of methods
 */
 
 void GameSetupView::addPlayer() {
+
+	//Cap at max players
+	if (buttons.size() >= Game::PLAYER_MAXIMUM)
+		return;
 	
 	std::pair<Tbutton, Tbutton> pair = std::pair<Tbutton, Tbutton>();
 	size_t playerNum = buttons.size() + 1;
@@ -245,7 +250,8 @@ void GameSetupView::addPlayer() {
 
 void GameSetupView::removePlayer() {
 
-	if (buttons.size() <= 2)
+	//Cap at min players
+	if (buttons.size() <= Game::PLAYER_MINIMUM)
 		return;
 
 	buttons.pop_back();
