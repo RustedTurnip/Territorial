@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Tbutton.h"
+#include "BattleOverlay.h"
 
 /*!
  * \brief This class is responsible for holding the game itself and controlling the games flow
@@ -19,11 +20,16 @@ class Game
 private:
 	/* Member variables */
 	Map map; /*< Stores the map used for game */
+	BattleOverlay battleOverlay = BattleOverlay();
+	
 	std::vector<Player*> players = std::vector<Player*>();
 
 	void setPlayers();
+	void handleMapEvent(Map::MapEvents);
 	Player* nextPlayer();
 	size_t currentPlayer = 0;
+
+	size_t allocationAmount = 0; //Number of units to place at the beginning of a turn
 
 	std::vector<std::pair<sf::Text, Tbutton>> playerTracker;
 

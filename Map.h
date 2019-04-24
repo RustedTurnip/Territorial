@@ -18,15 +18,15 @@ class Map : public sf::Drawable
 
 public:
 	enum MapEvents {
-		NextPlayer,
+		Placement,
+		Battle,
+		Fortification,
 		None
 	};
 	
-	enum MapState { Selection, UnitDistribution, Game };
+	enum MapState { Selection, UnitDistribution, GamePlacement, GameBattle, GameFortification };
 
 private:
-
-
 	/* Private Members */
 	sf::Texture mapBackTexture;
 	sf::Sprite mapBackSprite;
@@ -70,6 +70,10 @@ public:
 	void setCurrentPlayer(Player* player) { currentPlayer = player; };
 	MapState getCurrentState() { return currentState; };
 	void setCurrentState(MapState ms) { currentState = ms; };
+
+	//TODO MOVE TO PRIVATE
+	Territory* selectionAttack = nullptr;
+	Territory* selectionDefence = nullptr;
 };
 
 #endif // !MAP_H

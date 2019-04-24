@@ -14,7 +14,7 @@ class Player {
 		size_t playerNum;
 		sf::Color playerColour;
 
-		size_t initialAllocation;
+		size_t reserves;
 
 		//std::set<std::string, Territory&> territories = std::set<std::string, Territory&>();
 		
@@ -30,9 +30,9 @@ class Player {
 
 		size_t getPlayerNum() { return playerNum; };
 		sf::Color getPlayerColour() { return playerColour; };
-		void setInitialAllocationAmount(size_t amount) { initialAllocation = amount; };
-		void allocateUnit() { initialAllocation--; };
-		size_t getInitialAllocation() { return initialAllocation; };
+		void setReserves(size_t amount) { reserves = amount; };
+		void allocateUnit() { reserves--; };
+		size_t getReserves() { return reserves; };
 };
 
 #endif /* !PLAYER_H */

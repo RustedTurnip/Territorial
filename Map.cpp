@@ -183,7 +183,6 @@ Map::MapEvents Map::handleMouseClick() {
 	if (inFocus != nullptr) {
 		if (currentState == MapState::Selection) {
 			if (allocate(*inFocus)) {
-				
 				//Have all territories been allocated?
 				bool complete = true;
 				for (Territory& t : territories) {
@@ -192,15 +191,35 @@ Map::MapEvents Map::handleMouseClick() {
 				}
 				if (complete)
 					currentState = MapState::UnitDistribution;
-
-				return NextPlayer;
+				return Placement;
 			}
 		}
 		else if (currentState == MapState::UnitDistribution) {
 			if (inFocus->getPlayer() == currentPlayer->getPlayerNum()) {
 				currentPlayer->allocateUnit();
 				inFocus->setUnits(inFocus->getUnits() + 1);
-				return NextPlayer;
+				return Placement;
+			}
+		}
+		else if (currentState == MapState::GamePlacement) {
+			if (inFocus->getPlayer() == currentPlayer->getPlayerNum()) {
+				currentPlayer->allocateUnit();
+				inFocus->setUnits(inFocus->getUnits() + 1);
+				return Placement;
+			}
+		}
+		else if (currentState == MapState::GameBattle) {
+			if (inFocus->getPlayer() == currentPlayer->getPlayerNum()) { //Selecting place to attack from
+				if (inFocus->getUnits() > 1) {
+					selectionAttack = inFocus;
+					return None;
+				}
+			}
+			else if (selectionAttack != nullptr) { //If place to attack from already selected
+				if (inFocus->getPlayer() != currentPlayer->getPlayerNum()) { //Selecting place to attack from
+					selectionDefence = inFocus;
+					return Battle;
+				}
 			}
 		}
 	}

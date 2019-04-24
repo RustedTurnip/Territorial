@@ -39,18 +39,24 @@ void Game::drawGame(sf::RenderWindow& window) {
 		if (currentPlayer + 1 == players.at(i)->getPlayerNum())
 			window.draw(playerTracker.at(i).first);
 	}
+
+	if (battleOverlay.isOpen())
+		window.draw(battleOverlay);
 }
 
 /*
 * \brief responsible for handling game events
 */
 void Game::handleEvents(sf::Event event){
-	Map::MapEvents mapEvent = map.handleEvents(event);
 
-	switch (mapEvent) {
-	case Map::MapEvents::NextPlayer : {
-		map.setCurrentPlayer(nextPlayer()); break;
+	if (battleOverlay.isOpen()) {
+		battleOverlay.handleEvents(event);
+		return;
 	}
+
+	Map::MapEvents mapEvent = map.handleEvents(event);
+	if (mapEvent != Map::MapEvents::None) {
+		handleMapEvent(mapEvent);
 	}
 }
 
@@ -70,7 +76,7 @@ void Game::setPlayers() {
 	int playerNum = players.size();
 
 	for (Player* player : players) {
-		player->setInitialAllocationAmount(Game::initialAmounts[playerNum - 2]); //Set initial amounts
+		player->setReserves(Game::initialAmounts[playerNum - 2]); //Set initial amounts
 	}
 
 	setPlayerTracker();
@@ -112,24 +118,63 @@ void Game::setPlayerTracker() {
 	}
 }
 
-Player* Game::nextPlayer() {
+void Game::handleMapEvent(Map::MapEvents event) {
 	
-	//Move on to main game if allocation finished
-	if (map.getCurrentState() == Map::MapState::UnitDistribution) {
-		bool progress = true;
-		for (Player* p : players) {
-			if (p->getInitialAllocation() != 0)
-				progress = false;
+	switch (event) {
+	//HANDLE PLACEMENT EVENT
+	case Map::MapEvents::Placement: {
+		Map::MapState state = map.getCurrentState();
+		
+		//Handle Selection
+		if (state == Map::MapState::Selection) {
+			map.setCurrentPlayer(nextPlayer());
 		}
 
-		if (progress)
-			map.setCurrentState(Map::MapState::Game);
+		//Check if UnitDistribution Complete
+		if (state == Map::MapState::UnitDistribution) {
+			bool progress = true;
+			for (Player* p : players) {
+				if (p->getReserves() != 0)
+					progress = false;
+			}
+			if (progress) {
+				allocationAmount = 3; //When game starts, players get three units each round
+				map.setCurrentState(Map::MapState::GamePlacement);
+			}
+		map.setCurrentPlayer(nextPlayer());
+		}
+
+		if (state == Map::MapState::GamePlacement) {
+			if (players.at(currentPlayer)->getReserves() == 0) {
+				map.setCurrentState(Map::MapState::GameBattle);
+			}
+		}
+		break;
 	}
+
+	case Map::MapEvents::Battle: {
+		battleOverlay.openWindow(*map.selectionAttack, *map.selectionDefence);
+		break;
+	}
+
+	case Map::MapEvents::Fortification: {
+		map.setCurrentPlayer(nextPlayer());
+		break;
+	}
+	}
+
+	
+}
+
+Player* Game::nextPlayer() {
 
 	//Get next player
 	if (currentPlayer == (players.size() - 1))
 		currentPlayer = 0;
 	else
 		currentPlayer++;
+
+	size_t units = players.at(currentPlayer)->getReserves() + allocationAmount;
+	players.at(currentPlayer)->setReserves(units);
 	return players.at(currentPlayer);
 }
