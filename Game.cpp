@@ -33,6 +33,12 @@ bool Game::load() {
  */
 void Game::drawGame(sf::RenderWindow& window) {
 	window.draw(map);
+
+	for (int i = 0; i < playerTracker.size(); i++) {
+		window.draw(playerTracker.at(i).second);
+		if (currentPlayer + 1 == players.at(i)->getPlayerNum())
+			window.draw(playerTracker.at(i).first);
+	}
 }
 
 /*
@@ -51,19 +57,58 @@ void Game::handleEvents(sf::Event event){
 void Game::setPlayers() {
 	for (int i = 0; i < Territorial::PLAYER_MAXIMUM; i++) {
 		if (Territorial::currentPlayers[i] == 2)
-			return;
+			break;
 		else if (Territorial::currentPlayers[i] == 0) {
 			players.push_back(new HumanPlayer());
 		}
 		else if (Territorial::currentPlayers[i] == 1) {
 			players.push_back(new HumanPlayer()); //TODO Change to PCPlayer
 		}
+	
 	}
 
 	int playerNum = players.size();
 
 	for (Player* player : players) {
 		player->setInitialAllocationAmount(Game::initialAmounts[playerNum - 2]); //Set initial amounts
+	}
+
+	setPlayerTracker();
+}
+
+void Game::setPlayerTracker() {
+
+	sf::Vector2f startPos = sf::Vector2f(50, 50);
+	const sf::Vector2f BUTTON_SIZE = sf::Vector2f(250, 50);
+	
+	playerTracker = std::vector<std::pair<sf::Text, Tbutton>>();
+
+	for (Player* p : players) {
+
+		sf::Vector2f pos = startPos;
+		if (p->getPlayerNum() != 1) {
+			pos.y = p->getPlayerNum() * startPos.y;
+			pos.y += (p->getPlayerNum() - 1) * 25;
+		}
+
+		std::pair<sf::Text, Tbutton> pair = std::pair<sf::Text, Tbutton>();
+		pair.first = sf::Text(">", Territorial::mainFont, 45);
+		pair.first.setFillColor(sf::Color::Black);
+		pair.first.setPosition(pos);
+
+		pos.x += 40;
+
+		pair.second = Tbutton();
+		std::string str = "Player " + std::to_string(p->getPlayerNum());
+		pair.second.setFont(Territorial::mainFont);
+		pair.second.setTextSize(28);
+		pair.second.setText(str);
+		pair.second.setBackgroundColour(p->getPlayerColour());
+		pair.second.setSize(BUTTON_SIZE);
+		pair.second.setForegroundColour(sf::Color::Black);
+		pair.second.setPosition(pos);
+
+		playerTracker.push_back(pair);
 	}
 }
 

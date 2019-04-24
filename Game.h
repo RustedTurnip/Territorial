@@ -7,6 +7,7 @@
 #include "Reader.h"
 #include "Map.h"
 #include "Player.h"
+#include "Tbutton.h"
 
 /*!
  * \brief This class is responsible for holding the game itself and controlling the games flow
@@ -23,6 +24,10 @@ private:
 	void setPlayers();
 	Player* nextPlayer();
 	size_t currentPlayer = 0;
+
+	std::vector<std::pair<sf::Text, Tbutton>> playerTracker;
+
+	void setPlayerTracker();
 	
 public:
 	/* Constructor */
