@@ -14,7 +14,7 @@ default value = "Error"
 */
 Territory::Territory(std::string name, int continent, int territoryID)
 	: name(name)
-	, units(100.f)
+	, units(0)
 	, territoryID(territoryID){
 
 	this->continent = static_cast<Identifiers::Continent>(continent);	//Set conntinent enum
@@ -25,7 +25,7 @@ Territory::Territory(std::string name, int continent, int territoryID)
 */
 Territory::Territory(sf::Vector2f coords, std::string name, int continent, int territoryID)
 	: name(name)
-	, units(100.f)
+	, units(0)
 	, territoryID(territoryID)
 	, coords(coords) {
 

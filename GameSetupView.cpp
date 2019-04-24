@@ -1,6 +1,7 @@
 #include "GameSetupView.h"
 #include "Territorial.h"
 #include "Game.h"
+#include "HumanPlayer.h"
 
 /*
 Constructor -- Destructor
@@ -54,7 +55,7 @@ Identifiers::StateChange GameSetupView::handleEvents(sf::Event event) {
 
 		//Play button
 		if (playButton.getGlobalBounds().contains(mousePos))
-			return Identifiers::StateChange::PlayGame;
+			return playGame();
 		else
 			playButton.setInFocus(false);
 
@@ -220,7 +221,7 @@ Rest of methods
 void GameSetupView::addPlayer() {
 
 	//Cap at max players
-	if (buttons.size() >= Game::PLAYER_MAXIMUM)
+	if (buttons.size() >= Territorial::PLAYER_MAXIMUM)
 		return;
 	
 	std::pair<Tbutton, Tbutton> pair = std::pair<Tbutton, Tbutton>();
@@ -251,7 +252,7 @@ void GameSetupView::addPlayer() {
 void GameSetupView::removePlayer() {
 
 	//Cap at min players
-	if (buttons.size() <= Game::PLAYER_MINIMUM)
+	if (buttons.size() <= Territorial::PLAYER_MINIMUM)
 		return;
 
 	buttons.pop_back();
@@ -264,4 +265,21 @@ void GameSetupView::toggleHuman(size_t num) {
 		buttons.at(num).second.setText(PC_STRING);
 	else
 		buttons.at(num).second.setText(HUMAN_STRING);
+}
+
+Identifiers::StateChange GameSetupView::playGame() {
+	
+	//Important - Delete old players, avoiding memory leak and count errors
+	for (int i = 0; i < Territorial::PLAYER_MAXIMUM; i++) {
+		Territorial::currentPlayers[i] = 2;
+	}
+
+	for (int i = 0; i < buttons.size(); i++) {
+		if (buttons.at(i).second.getText() == HUMAN_STRING)
+			Territorial::currentPlayers[i] = 0;
+		else
+			Territorial::currentPlayers[i] = 1;
+	}
+
+	return Identifiers::StateChange::PlayGame;
 }

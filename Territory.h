@@ -39,11 +39,13 @@ class Territory {
 		sf::Vector2f coords;
 		bool overlaySet = false;
 
+		size_t currentPlayer;
+
 		std::set<Territory*> neighbours;	/*!< Effectively makes this class Adjacency List for Graph */
 
 		/* In Game Attributes */
-		float units;	/*!< Each Territory has a number of units, for battle */
-		int controllingPlayerID;	/*!< Once the game is underway, each Territory must have a commanding player */
+		size_t units;	/*!< Each Territory has a number of units, for battle */
+		bool allocated = false; //For unit placement
 
 	public:
 		/* Methods */
@@ -72,13 +74,18 @@ class Territory {
 		const sf::Sprite& getShape() const { return territoryShapeSprite; };
 
 		bool isOver(sf::Vector2f);
+		bool isAllocated() { return allocated; };
+		size_t getPlayer() { return currentPlayer; };
 
 		/* Setters */
-		void setUnits(size_t units) { this->units = units; };
-		void addUnits(float units) { this->units += units; };
+		void setUnits(size_t units) { this->units = units; unitDisplay.setNumber(units); };
+		//void addUnits(float units) { this->units += units; };
 		bool dealDamage(float);
+		void setAllocated() { allocated = true; };
+		void setUnitDisplayColour(sf::Color colour) { unitDisplay.setColour(colour); };
 
 		void positionUnitCounter(sf::Vector2f);
+		void setPlayer(size_t playerNum) { currentPlayer = playerNum; };
 
 };
 

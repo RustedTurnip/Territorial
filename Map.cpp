@@ -128,6 +128,10 @@ Map::MapEvents Map::handleEvents(sf::Event event) {
 		sf::Vector2f worldPos = Mouse::mapPixelToCoords(mousePos, mapView);
 		handleMouseMove(); break;
 	}
+
+	case sf::Event::MouseButtonReleased: {
+		mapEvent = handleMouseClick();
+	}
 	}
 
 	return mapEvent;
@@ -171,5 +175,48 @@ bool Map::territoryColision(int continentID, sf::Vector2f worldPos) {
 		}
 	}
 	this->inFocus = nullptr;
+	return false;
+}
+
+Map::MapEvents Map::handleMouseClick() {
+	
+	if (inFocus != nullptr) {
+		if (currentState == MapState::Selection) {
+			if (allocate(*inFocus)) {
+				
+				//Have all territories been allocated?
+				bool complete = true;
+				for (Territory& t : territories) {
+					if (!t.isAllocated())
+						complete = false;
+				}
+				if (complete)
+					currentState = MapState::UnitDistribution;
+
+				return NextPlayer;
+			}
+		}
+		else if (currentState == MapState::UnitDistribution) {
+			if (inFocus->getPlayer() == currentPlayer->getPlayerNum()) {
+				currentPlayer->allocateUnit();
+				inFocus->setUnits(inFocus->getUnits() + 1);
+				return NextPlayer;
+			}
+		}
+	}
+
+	return None;
+}
+
+bool Map::allocate(Territory& territory) {
+	if (!territory.isAllocated()) {
+		territory.setAllocated();
+		territory.setUnitDisplayColour(currentPlayer->getPlayerColour());
+		inFocus->setPlayer(currentPlayer->getPlayerNum());
+		territory.setUnits(territory.getUnits() + 1);
+		currentPlayer->allocateUnit();
+		return true;
+	}
+
 	return false;
 }

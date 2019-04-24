@@ -47,6 +47,7 @@ private: /* Initialise */
 	void addPlayer();
 	void removePlayer();
 	void toggleHuman(size_t);
+	Identifiers::StateChange playGame();
 
 public:
 	/* Constructor -- Destructor */

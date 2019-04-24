@@ -20,7 +20,7 @@ class UnitDisplay : public sf::Drawable {
 		UnitDisplay();
 
 		void setColour(sf::Color colour) { circle.setFillColor(colour); };
-		void setNumber(int units) { text.setString("" + units); };
+		void setNumber(int units) { text.setString(std::to_string(units)); };
 		void setNumber(std::string str) { text.setString(str); };
 		void setPosition(sf::Vector2f);
 

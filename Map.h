@@ -8,17 +8,25 @@
 #include <SFML\Graphics.hpp>
 
 #include "Territory.h"
+#include "Player.h"
 
 /*!
  * \brief this class represents a drawable map
  */
 class Map : public sf::Drawable
 {
+
+public:
 	enum MapEvents {
-		Battle,
+		NextPlayer,
 		None
 	};
+	
+	enum MapState { Selection, UnitDistribution, Game };
+
 private:
+
+
 	/* Private Members */
 	sf::Texture mapBackTexture;
 	sf::Sprite mapBackSprite;
@@ -31,12 +39,19 @@ private:
 
 	float zeroZoom = 0.f;
 	sf::View mapView;
+
+	Player* currentPlayer = nullptr;
+	MapState currentState = MapState::Selection;
 	
 	/* Setup methods */
 	void setupMap();
 
 	/* Overrides */
 	virtual void draw(sf::RenderTarget&, sf::RenderStates = sf::RenderStates()) const;
+
+private:
+	/* General methods */
+	bool allocate(Territory&);
 
 public:
 	/* Constructor */
@@ -49,7 +64,12 @@ public:
 	/* Event methods */
 	MapEvents handleEvents(sf::Event);
 	void handleMouseMove();
+	MapEvents handleMouseClick();
 	bool territoryColision(int, sf::Vector2f);
+
+	void setCurrentPlayer(Player* player) { currentPlayer = player; };
+	MapState getCurrentState() { return currentState; };
+	void setCurrentState(MapState ms) { currentState = ms; };
 };
 
 #endif // !MAP_H

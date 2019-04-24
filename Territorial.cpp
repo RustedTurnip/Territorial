@@ -17,6 +17,8 @@ sf::Time Territorial::updateTime = sf::Time::Zero;
 sf::Vector2f Territorial::windowSize = sf::Vector2f(1920.f, 1080.f);
 sf::Vector2f Territorial::windowCentre = sf::Vector2f(960.f, 540.f);
 
+int Territorial::currentPlayers[] = {2, 2, 2, 2, 2};
+
 /* Global resources */
 sf::Font Territorial::mainFont = sf::Font();
 

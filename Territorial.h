@@ -29,6 +29,11 @@ public:
 	const static std::string version; /* The version number of Territorial itself */
 	const static sf::Time TIME_PER_FRAME; /*!< Maximum frame RENDER time */
 	const static float FRAMERATE_LIMIT; /*!< Constant defines global frame rate limit */
+
+
+	static const size_t PLAYER_MINIMUM = 2;
+	static const size_t PLAYER_MAXIMUM = 5;
+	static int currentPlayers[PLAYER_MAXIMUM]; //0 = human, 1 = pc, <=2 = none
 	
 	/* Game's GLobal Resources */
 	static sf::Font mainFont;

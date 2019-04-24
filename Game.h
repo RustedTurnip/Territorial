@@ -6,21 +6,24 @@
 
 #include "Reader.h"
 #include "Map.h"
+#include "Player.h"
 
 /*!
  * \brief This class is responsible for holding the game itself and controlling the games flow
  */
 class Game
 {
+	static const size_t initialAmounts[Territorial::PLAYER_MAXIMUM - 1];
+
 private:
 	/* Member variables */
 	Map map; /*< Stores the map used for game */
+	std::vector<Player*> players = std::vector<Player*>();
 
-/* Game Constants */
-public:
-	static const size_t PLAYER_MINIMUM = 2;
-	static const size_t PLAYER_MAXIMUM = 5;
-
+	void setPlayers();
+	Player* nextPlayer();
+	size_t currentPlayer = 0;
+	
 public:
 	/* Constructor */
 	Game();
