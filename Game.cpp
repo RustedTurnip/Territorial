@@ -24,6 +24,7 @@ bool Game::load() {
 		return false;
 
 	setPlayers();
+	loadHeadsUp();
 	map.setCurrentPlayer(players.at(0));
 	return true;
 }
@@ -33,6 +34,9 @@ bool Game::load() {
  */
 void Game::drawGame(sf::RenderWindow& window) {
 	window.draw(map);
+
+	setStatusString(); //TEMP - Move to somewhere else
+	window.draw(gameStageDisplay);
 
 	for (int i = 0; i < playerTracker.size(); i++) {
 		window.draw(playerTracker.at(i).second);
@@ -60,6 +64,16 @@ void Game::handleEvents(sf::Event event){
 	}
 }
 
+void Game::loadHeadsUp() {
+	setPlayerTracker();
+
+	/* In game stage indicator */
+	gameStageDisplay.setFillColor(sf::Color::Black);
+	sf::Vector2f pos = sf::Vector2f(50, 0);
+	pos.y = Territorial::getWindowSize().y - gameStageDisplay.getLocalBounds().height - 50;
+	gameStageDisplay.setPosition(pos);
+}
+
 void Game::setPlayers() {
 	for (int i = 0; i < Territorial::PLAYER_MAXIMUM; i++) {
 		if (Territorial::currentPlayers[i] == 2)
@@ -78,8 +92,6 @@ void Game::setPlayers() {
 	for (Player* player : players) {
 		player->setReserves(Game::initialAmounts[playerNum - 2]); //Set initial amounts
 	}
-
-	setPlayerTracker();
 }
 
 void Game::setPlayerTracker() {
@@ -115,6 +127,28 @@ void Game::setPlayerTracker() {
 		pair.second.setPosition(pos);
 
 		playerTracker.push_back(pair);
+	}
+}
+
+void Game::setStatusString() {
+	Map::MapState state = map.getCurrentState();
+
+	switch (state) {
+	case Map::MapState::Selection: {
+		gameStageDisplay.setString("Selection"); break;
+	}
+	case Map::MapState::UnitDistribution: {
+		gameStageDisplay.setString("Distribution"); break;
+	}
+	case Map::MapState::GamePlacement: {
+		gameStageDisplay.setString("Placement"); break;
+	}
+	case Map::MapState::GameBattle: {
+		gameStageDisplay.setString("Battle"); break;
+	}
+	case Map::MapState::GameFortification: {
+		gameStageDisplay.setString("Fortification"); break;
+	}
 	}
 }
 
@@ -163,7 +197,6 @@ void Game::handleMapEvent(Map::MapEvents event) {
 	}
 	}
 
-	
 }
 
 Player* Game::nextPlayer() {

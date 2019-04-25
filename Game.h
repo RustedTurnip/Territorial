@@ -24,7 +24,9 @@ private:
 	
 	std::vector<Player*> players = std::vector<Player*>();
 
+	void loadHeadsUp();
 	void setPlayers();
+	void setStatusString();
 	void handleMapEvent(Map::MapEvents);
 	Player* nextPlayer();
 	size_t currentPlayer = 0;
@@ -32,6 +34,7 @@ private:
 	size_t allocationAmount = 0; //Number of units to place at the beginning of a turn
 
 	std::vector<std::pair<sf::Text, Tbutton>> playerTracker;
+	sf::Text gameStageDisplay = sf::Text("Selection", Territorial::mainFont, 75);
 
 	void setPlayerTracker();
 	
