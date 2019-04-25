@@ -7,7 +7,7 @@ class HumanPlayer : public Player {
 
 	public:
 		/* Constructor -- Destructor */
-		//HumanPlayer(); //Super constructor called implicitly (because no arguments need to be passed)
+		HumanPlayer(); //Super constructor called implicitly (because no arguments need to be passed)
 		//~HumanPlayer();
 
 		/* Overrides */

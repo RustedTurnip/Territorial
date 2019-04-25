@@ -8,9 +8,13 @@
 
 class Player {
 
+	public:
+		static enum PlayerType {Human, PC};
+
 	protected:
 		static size_t playerCount;
 
+		PlayerType playerType;
 		size_t playerNum;
 		sf::Color playerColour;
 
@@ -33,6 +37,7 @@ class Player {
 		void setReserves(size_t amount) { reserves = amount; };
 		void allocateUnit() { reserves--; };
 		size_t getReserves() { return reserves; };
+		PlayerType getPlayerType() { return playerType; };
 };
 
 #endif /* !PLAYER_H */
