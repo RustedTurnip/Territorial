@@ -21,22 +21,32 @@ private:
 	/* Member variables */
 	Map map; /*< Stores the map used for game */
 	BattleOverlay battleOverlay = BattleOverlay();
-	
 	std::vector<Player*> players = std::vector<Player*>();
-
-	void loadHeadsUp();
-	void setPlayers();
-	void setStatusString();
-	void handleMapEvent(Map::MapEvents);
-	Player* nextPlayer();
 	size_t currentPlayer = 0;
-
+	
+	/* Other variables */
 	size_t allocationAmount = 0; //Number of units to place at the beginning of a turn
 
+	/* Initialisation methods */
+	void loadHeadsUp();
+	void setPlayers();
+	void setPlayerTracker();
+
+	/* Other methods */
+	void setStatusString();
+	void nextPlayer();
+	void handleMapEvent(Map::MapEvents);
+
+	bool handleGameEvents(sf::Event);
+	bool handleMouseMove();
+	bool handleMouseClick();
+
+	/* GUI Elements */
 	std::vector<std::pair<sf::Text, Tbutton>> playerTracker;
 	sf::Text gameStageDisplay = sf::Text("Selection", Territorial::mainFont, 75);
+	TanimatedButton nextButton = TanimatedButton(Territorial::mainFont, sf::Vector2f(250, 50));
 
-	void setPlayerTracker();
+	bool nextButtonActive();
 	
 public:
 	/* Constructor */

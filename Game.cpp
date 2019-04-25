@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "Territorial.h"
 #include "HumanPlayer.h"
+#include "PCPlayer.h"
+#include "Mouse.h"
 
 const size_t Game::initialAmounts[Territorial::PLAYER_MAXIMUM - 1] = {40, 35, 30, 25};
 
@@ -44,6 +46,9 @@ void Game::drawGame(sf::RenderWindow& window) {
 			window.draw(playerTracker.at(i).first);
 	}
 
+	if (nextButtonActive())
+		window.draw(nextButton);
+
 	if (battleOverlay.isOpen())
 		window.draw(battleOverlay);
 }
@@ -58,10 +63,72 @@ void Game::handleEvents(sf::Event event){
 		return;
 	}
 
+	if (handleGameEvents(event))
+		return;
+
 	Map::MapEvents mapEvent = map.handleEvents(event);
 	if (mapEvent != Map::MapEvents::None) {
 		handleMapEvent(mapEvent);
 	}
+}
+
+bool Game::handleGameEvents(sf::Event event) {
+
+	switch (event.type) {
+	case sf::Event::MouseMoved: {
+		return handleMouseMove();
+	}
+	case sf::Event::MouseButtonReleased: {
+		return handleMouseClick();
+	}
+	}
+
+	return false;
+}
+
+bool Game::handleMouseMove() {
+	
+	sf::Vector2i rawPos = Mouse::getMousePosition();
+	sf::Vector2f mousePos = sf::Vector2f(rawPos.x, rawPos.y);
+
+	if (nextButton.getGlobalBounds().contains(mousePos)) {
+		nextButton.setInFocus(true);
+		return true;
+	}
+	else
+		nextButton.setInFocus(false);
+
+	return false;
+}
+
+bool Game::handleMouseClick() {
+
+	sf::Vector2i rawPos = Mouse::getMousePosition();
+	sf::Vector2f mousePos = sf::Vector2f(rawPos.x, rawPos.y);
+
+	if (nextButtonActive()) {
+		if (nextButton.getGlobalBounds().contains(mousePos)) {
+			if (map.getCurrentState() == Map::MapState::GameBattle) {
+				map.setCurrentState(Map::MapState::GameFortification);
+				return true;
+			}
+			else if (map.getCurrentState() == Map::MapState::GameFortification) {
+				nextPlayer();
+			}
+		}
+	}
+}
+
+bool Game::nextButtonActive() {
+	if (map.getCurrentState() == Map::MapState::GameBattle ||
+		map.getCurrentState() == Map::MapState::GameFortification) {
+	
+		if (!battleOverlay.isOpen()) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void Game::loadHeadsUp() {
@@ -72,6 +139,15 @@ void Game::loadHeadsUp() {
 	sf::Vector2f pos = sf::Vector2f(50, 0);
 	pos.y = Territorial::getWindowSize().y - gameStageDisplay.getLocalBounds().height - 50;
 	gameStageDisplay.setPosition(pos);
+
+	/* Next button */
+	nextButton.setText("Next");
+	nextButton.setBackgroundColour(sf::Color::Black);
+	nextButton.setForegroundColour(sf::Color::White);
+	nextButton.setFocusBackgroundColour(sf::Color(155, 155, 155));
+	nextButton.setFocusForegroundColour(sf::Color::White);
+	nextButton.setOrigin(sf::Vector2f(nextButton.getSize().x / 2, nextButton.getSize().y));
+	nextButton.setPosition(sf::Vector2f(Territorial::getWindowCentre().x, Territorial::getWindowSize().y - 50));
 }
 
 void Game::setPlayers() {
@@ -82,7 +158,7 @@ void Game::setPlayers() {
 			players.push_back(new HumanPlayer());
 		}
 		else if (Territorial::currentPlayers[i] == 1) {
-			players.push_back(new HumanPlayer()); //TODO Change to PCPlayer
+			players.push_back(new PCPlayer());
 		}
 	
 	}
@@ -161,7 +237,7 @@ void Game::handleMapEvent(Map::MapEvents event) {
 		
 		//Handle Selection
 		if (state == Map::MapState::Selection) {
-			map.setCurrentPlayer(nextPlayer());
+			nextPlayer();
 		}
 
 		//Check if UnitDistribution Complete
@@ -175,7 +251,7 @@ void Game::handleMapEvent(Map::MapEvents event) {
 				allocationAmount = 3; //When game starts, players get three units each round
 				map.setCurrentState(Map::MapState::GamePlacement);
 			}
-		map.setCurrentPlayer(nextPlayer());
+		nextPlayer();
 		}
 
 		if (state == Map::MapState::GamePlacement) {
@@ -192,14 +268,14 @@ void Game::handleMapEvent(Map::MapEvents event) {
 	}
 
 	case Map::MapEvents::Fortification: {
-		map.setCurrentPlayer(nextPlayer());
+		nextPlayer();
 		break;
 	}
 	}
 
 }
 
-Player* Game::nextPlayer() {
+void Game::nextPlayer() {
 
 	//Get next player
 	if (currentPlayer == (players.size() - 1))
@@ -209,5 +285,16 @@ Player* Game::nextPlayer() {
 
 	size_t units = players.at(currentPlayer)->getReserves() + allocationAmount;
 	players.at(currentPlayer)->setReserves(units);
-	return players.at(currentPlayer);
+	
+	//Move to next player
+	map.setCurrentPlayer(players.at(currentPlayer));
+
+	//If we're in main game, move to next players placement
+	if (map.getCurrentState() == Map::MapState::GameFortification) {
+		map.setCurrentState(Map::MapState::GamePlacement);
+		
+		//Clear previous players selections
+		map.selectionAttack = nullptr;
+		map.selectionDefence = nullptr;
+	}
 }
