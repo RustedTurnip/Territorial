@@ -55,6 +55,7 @@ public:
 	Game();
 
 	/* Core Mthods */
+	void update();
 	void handleEvents(sf::Event); /* Return type TBD */
 
 	/* Other Methods */

@@ -17,6 +17,7 @@ ViewManager manager(&window);
 
 /* Function Prototypes */
 void setup();
+void update();
 void handleEvents();
 void handleKeyboardEvents(sf::Event event);
 void splash();
@@ -43,9 +44,11 @@ int main()
 		while (timeSinceLastUpdate > Territorial::TIME_PER_FRAME) {	/* Skip render until events caught up */
 			timeSinceLastUpdate -= Territorial::TIME_PER_FRAME;
 			handleEvents();
+			update();
 		}
 
 		Territorial::updateStatistics(elapsedTime);
+		update();
 		manager.render();
 		window.display();
 	}
@@ -64,6 +67,14 @@ void setup() {
 	Territorial::initialiseResources();
 
 	splash();
+}
+
+/*!
+* \brief This function updates the game logic, seperating it from rendering and event handling
+*/
+void update() {
+
+	manager.update();
 }
 
 /*!

@@ -14,6 +14,14 @@ GameView::GameView(sf::RenderWindow* window)
 }
 
 /*!
+* \brief Updates game logic - if required
+*/
+void GameView::update() {
+
+	game.update();
+}
+
+/*!
  * \brief draws GameView to window
  */
 void GameView::render() {

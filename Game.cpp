@@ -31,6 +31,10 @@ bool Game::load() {
 	return true;
 }
 
+void Game::update() {
+	
+}
+
 /*!
  * \brief responsible for loading game data in from file
  */
@@ -275,9 +279,6 @@ void Game::handleMapEvent(Map::MapEvents event) {
 
 	case Map::MapEvents::Fortify: {
 		fortifyOverlay.openWindow(*map.friendlySelectionOne, *map.friendlySelectionTwo);
-		if (fortifyOverlay.isFortifyCommit()) {
-			nextPlayer();
-		}
 		break;
 	}
 	}

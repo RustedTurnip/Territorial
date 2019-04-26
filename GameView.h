@@ -23,6 +23,7 @@ class GameView : public View
 		GameView(sf::RenderWindow*);
 
 		/* Overridden methods */
+		virtual void update();
 		virtual void render();
 		virtual Identifiers::StateChange handleEvents(sf::Event);
 };

@@ -19,6 +19,7 @@ class View {
 		/* Constructor */
 		View(sf::RenderWindow* window) { this->window = window; };
 
+		virtual void update() {};
 		virtual void render() = 0;
 		virtual Identifiers::StateChange handleEvents(sf::Event) = 0;
 

@@ -32,6 +32,7 @@ class ViewManager {
 		ViewManager(sf::RenderWindow* = nullptr);
 		~ViewManager();
 
+		void update(); /*!< Update function used to update game logic separately to rendering */
 		void render();
 		void handleEvents(sf::Event);
 

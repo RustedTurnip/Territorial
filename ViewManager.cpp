@@ -17,6 +17,11 @@ ViewManager::~ViewManager() {
 /*
 	Methods
 */
+void ViewManager::update() {
+
+	currentState->update();
+}
+
 void ViewManager::render() {
 
 	currentState->render();
