@@ -20,7 +20,7 @@ public:
 	enum MapEvents {
 		Placement,
 		Battle,
-		Fortification,
+		Fortify,
 		None
 	};
 	
@@ -72,8 +72,9 @@ public:
 	void setCurrentState(MapState ms) { currentState = ms; };
 
 	//TODO MOVE TO PRIVATE
-	Territory* selectionAttack = nullptr;
-	Territory* selectionDefence = nullptr;
+	Territory* friendlySelectionOne = nullptr;
+	Territory* friendlySelectionTwo = nullptr;
+	Territory* enemySelectionOne = nullptr;
 };
 
 #endif // !MAP_H

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Tbutton.h"
 #include "BattleOverlay.h"
+#include "FortifyOverlay.h"
 
 /*!
  * \brief This class is responsible for holding the game itself and controlling the games flow
@@ -21,6 +22,7 @@ private:
 	/* Member variables */
 	Map map; /*< Stores the map used for game */
 	BattleOverlay battleOverlay = BattleOverlay();
+	FortifyOverlay fortifyOverlay = FortifyOverlay();
 	std::vector<Player*> players = std::vector<Player*>();
 	size_t currentPlayer = 0;
 	

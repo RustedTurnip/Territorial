@@ -211,14 +211,35 @@ Map::MapEvents Map::handleMouseClick() {
 		else if (currentState == MapState::GameBattle) {
 			if (inFocus->getPlayer() == currentPlayer->getPlayerNum()) { //Selecting place to attack from
 				if (inFocus->getUnits() > 1) {
-					selectionAttack = inFocus;
+					friendlySelectionOne = inFocus;
 					return None;
 				}
 			}
-			else if (selectionAttack != nullptr) { //If place to attack from already selected
+			else if (friendlySelectionOne != nullptr) { //If place to attack from already selected
 				if (inFocus->getPlayer() != currentPlayer->getPlayerNum()) { //Selecting place to attack from
-					selectionDefence = inFocus;
+					enemySelectionOne = inFocus;
 					return Battle;
+				}
+			}
+		}
+		else if (currentState == MapState::GameFortification) {
+
+			//Clear previous selection
+			if (friendlySelectionOne != nullptr && friendlySelectionTwo != nullptr) {
+				friendlySelectionOne = nullptr;
+				friendlySelectionTwo = nullptr;
+			}
+
+			if (inFocus->getPlayer() == currentPlayer->getPlayerNum()) { //Selecting place to attack from
+				if (friendlySelectionOne == nullptr) { // Select source
+					if (inFocus->getUnits() > 1) { // If source has enough units to fortify from
+						friendlySelectionOne = inFocus;
+						return None;
+					}
+				}
+				else {
+					friendlySelectionTwo = inFocus;
+					return Fortify;
 				}
 			}
 		}

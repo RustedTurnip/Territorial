@@ -51,6 +51,8 @@ void Game::drawGame(sf::RenderWindow& window) {
 
 	if (battleOverlay.isOpen())
 		window.draw(battleOverlay);
+	if (fortifyOverlay.isOpen())
+		window.draw(fortifyOverlay);
 }
 
 /*
@@ -60,6 +62,10 @@ void Game::handleEvents(sf::Event event){
 
 	if (battleOverlay.isOpen()) {
 		battleOverlay.handleEvents(event);
+		return;
+	}
+	if (fortifyOverlay.isOpen()) {
+		fortifyOverlay.handleEvents(event);
 		return;
 	}
 
@@ -263,12 +269,15 @@ void Game::handleMapEvent(Map::MapEvents event) {
 	}
 
 	case Map::MapEvents::Battle: {
-		battleOverlay.openWindow(*map.selectionAttack, *map.selectionDefence);
+		battleOverlay.openWindow(*map.friendlySelectionOne, *map.enemySelectionOne);
 		break;
 	}
 
-	case Map::MapEvents::Fortification: {
-		nextPlayer();
+	case Map::MapEvents::Fortify: {
+		fortifyOverlay.openWindow(*map.friendlySelectionOne, *map.friendlySelectionTwo);
+		if (fortifyOverlay.isFortifyCommit()) {
+			nextPlayer();
+		}
 		break;
 	}
 	}
@@ -294,7 +303,8 @@ void Game::nextPlayer() {
 		map.setCurrentState(Map::MapState::GamePlacement);
 		
 		//Clear previous players selections
-		map.selectionAttack = nullptr;
-		map.selectionDefence = nullptr;
+		map.friendlySelectionOne = nullptr;
+		map.friendlySelectionTwo = nullptr;
+		map.enemySelectionOne = nullptr;
 	}
 }
