@@ -24,6 +24,7 @@ private:
 	Tbutton removeDiceButton = Tbutton(Territorial::mainFont, DICE_BUTTON_SIZE);
 	sf::Text diceNumber = sf::Text("1", Territorial::mainFont, 50);
 	bool open = false;
+	size_t currentDice = 1;
 
 	/* Attacker attributes */
 	Territory* attacker;
@@ -45,9 +46,9 @@ private:
 	void handleMouseMove();
 	void handleMouseClick();
 
-	void addDice() {};
-	void removeDice() {};
-	void attack() {};
+	void addDice();
+	void removeDice();
+	void attack();
 
 public:
 	/* Constructor */

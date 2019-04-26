@@ -1,6 +1,10 @@
 #include "BattleOverlay.h"
 #include "Territorial.h"
 #include "Mouse.h"
+#include "Dice.h"
+#include "Player.h"
+
+#include <algorithm>
 
 /* Constructor */
 BattleOverlay::BattleOverlay() {
@@ -44,6 +48,9 @@ void BattleOverlay::initialise() {
 }
 
 void BattleOverlay::initialiseElements() {
+
+	currentDice = 1;
+	diceNumber.setString(std::to_string(currentDice));
 
 	//Ttiles
 	attackerTitle.setString(attacker->getName());
@@ -216,6 +223,86 @@ void BattleOverlay::handleMouseClick() {
 		close();
 	}
 
+}
+
+void BattleOverlay::addDice() {
+	if (attacker->getUnits() - 1 > currentDice) { //Enough units to attack with
+		if (currentDice < 3) { //Use up to three dice
+			currentDice++;
+			diceNumber.setString(std::to_string(currentDice));
+		}
+	}
+}
+
+void BattleOverlay::removeDice() {
+	if (currentDice > 1) {
+		currentDice--;
+		diceNumber.setString(std::to_string(currentDice));
+	}
+}
+
+void BattleOverlay::attack() {
+	
+	int attacking = currentDice;
+	int defending = 1;
+	if (defender->getUnits() > 1)
+		defending++;
+
+	//Roll dice
+	Dice dice = Dice(6); //Six sided dice
+	std::vector<int> attackRolls = std::vector<int>();
+	std::vector<int> defenceRolls = std::vector<int>();
+
+	for (int i = 0; i < attacking; i++)
+		attackRolls.push_back(dice.roll());
+	for (int i = 0; i < defending; i++)
+		defenceRolls.push_back(dice.roll());
+
+	//Order rolls (ascending)
+	std::sort(attackRolls.begin(), attackRolls.end());
+	std::sort(defenceRolls.begin(), defenceRolls.end());
+
+	//Comparison no. (lesser of the two)
+	size_t comparisonNum = (attacking < defending) ? attacking : defending;
+
+	//Compare highest two rolls for each - draw favours defence
+	for (int i = 0; i < comparisonNum; i++) {
+		if (attackRolls.at(i) > defenceRolls.at(i)) {
+			defender->setUnits(defender->getUnits() - 1);
+		}
+		else {
+			attacker->setUnits(attacker->getUnits() - 1);
+		}
+	}
+
+	//If battle won
+	if (defender->getUnits() == 0) {
+		//Set to new player
+		defender->setPlayer(attacker->getPlayer());
+		defender->setUnitDisplayColour(Player::COLOURS[attacker->getPlayer()-1]); //TEMP
+
+		//Temporary only transfer 1 unit in win
+		defender->setUnits(1);
+		attacker->setUnits(attacker->getUnits() - 1);
+		close();
+	}
+	else if (attacker->getUnits() == 1) { //If battle lost
+		close();
+	}
+	else { //Refresh and go again
+		//TEMP
+		size_t lastDice = currentDice;
+		initialiseElements();
+		positionElements();
+
+		if (attacker->getUnits() - 1 < lastDice) {
+			currentDice = attacker->getUnits() - 1;
+		}
+		else {
+			currentDice = lastDice;
+		}
+		diceNumber.setString(std::to_string(currentDice));
+	}
 }
 
 /* Overrides */
