@@ -157,6 +157,8 @@ void FortifyOverlay::openWindow(Territory& attacker, Territory& defender) {
 	this->source = &attacker;
 	this->destination = &defender;
 	fortifyCommit = false;
+	unitsToMove = 1;
+	unitNumber.setString(std::to_string(unitsToMove));
 
 	initialiseElements();
 	positionElements();
@@ -205,19 +207,39 @@ void FortifyOverlay::handleMouseClick() {
 	sf::Vector2f mousePos = sf::Vector2f(rawMouse.x, rawMouse.y);
 
 	if (addUnitButton.getGlobalBounds().contains(mousePos)) {
-		addDice();
+		addUnit();
 	}
 	else if (removeUnitButton.getGlobalBounds().contains(mousePos)) {
-		removeDice();
+		removeUnit();
 	}
 	else if (confirmButton.getGlobalBounds().contains(mousePos)) {
-		fortifyCommit = true;
-		close();
+		confirm();
 	}
 	else if (closeButton.getGlobalBounds().contains(mousePos)) {
 		close();
 	}
 
+}
+
+void FortifyOverlay::addUnit() {
+	if (source->getUnits() - unitsToMove > 1) {
+		unitsToMove++;
+		unitNumber.setString(std::to_string(unitsToMove));
+	}
+}
+
+void FortifyOverlay::removeUnit() {
+	if (unitsToMove > 1) {
+		unitsToMove--;
+		unitNumber.setString(std::to_string(unitsToMove));
+	}
+}
+
+void FortifyOverlay::confirm() {
+	fortifyCommit = true;
+	source->setUnits(source->getUnits() - unitsToMove); //Move units
+	destination->setUnits(destination->getUnits() + unitsToMove);
+	close();
 }
 
 /* Overrides */

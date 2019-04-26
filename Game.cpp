@@ -32,7 +32,10 @@ bool Game::load() {
 }
 
 void Game::update() {
-	
+	if (fortifyOverlay.isFortifyCommit()) {
+		nextPlayer();
+		fortifyOverlay.resetFortifyCommit();
+	}
 }
 
 /*!

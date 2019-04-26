@@ -238,6 +238,8 @@ Map::MapEvents Map::handleMouseClick() {
 					}
 				}
 				else {
+					if (friendlySelectionOne->getTerritoryID() == inFocus->getTerritoryID())
+						return None;
 					friendlySelectionTwo = inFocus;
 					return Fortify;
 				}

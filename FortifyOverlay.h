@@ -26,6 +26,7 @@ private:
 	sf::Text unitNumber = sf::Text("1", Territorial::mainFont, 50);
 	bool open = false;
 	bool fortifyCommit = false;
+	size_t unitsToMove = 1;
 
 	/* Attacker attributes */
 	Territory* source;
@@ -47,8 +48,9 @@ private:
 	void handleMouseMove();
 	void handleMouseClick();
 
-	void addDice() {};
-	void removeDice() {};
+	void addUnit();
+	void removeUnit();
+	void confirm();
 
 public:
 	/* Constructor */
@@ -63,6 +65,7 @@ public:
 
 	void setSource(Territory&);
 	void setDestination(Territory&);
+	void resetFortifyCommit() { fortifyCommit = false; };
 
 	/* Overrides */
 	virtual void draw(sf::RenderTarget&, sf::RenderStates = sf::RenderStates()) const;
