@@ -48,6 +48,7 @@ class Territory {
 		bool allocated = false; //For unit placement
 		
 		void setNeighbours(std::vector<int>); //TEMP
+		int heuristic;
 
 	public:
 		/* Methods */
@@ -58,8 +59,8 @@ class Territory {
 	public:
 		/* Constructor -- Destructor */
 		//Territory(std::string = "Error");
-		Territory(std::string = "Error", int = 6, int = -1, std::vector<int> = std::vector<int>());	//6 = ContinentError
-		Territory(sf::Vector2f, std::string = "Error", int = 6, int = -1, std::vector<int> = std::vector<int>());	//6 = ContinentError
+		Territory(std::string = "Error", int = 6, int = -1, int = 1, std::vector<int> = std::vector<int>());	//6 = ContinentError
+		Territory(sf::Vector2f, std::string = "Error", int = 6, int = -1, int = 1, std::vector<int> = std::vector<int>());	//6 = ContinentError
 		Territory(const Territory&);	//Copy constructor
 		~Territory();
 
@@ -73,6 +74,7 @@ class Territory {
 		const UnitDisplay& getUnitDisplay() const { return unitDisplay; };
 		const sf::Sprite& getOverlay() const { return overlaySprite; };
 		std::set<int> getNeighbours() const { return neighbours; };
+		int getHeuristic() const { return heuristic; };
 
 		const sf::Sprite& getShape() const { return territoryShapeSprite; };
 

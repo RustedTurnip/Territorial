@@ -48,6 +48,7 @@ bool Reader::readMap(std::string mapLoc)
 		std::vector<int> edges;
 		std::vector<std::string> temp;
 		std::stringstream ss;
+		int heuristic;
 
 		for (int i = 0; !mapReader.eof(); i++)
 		{
@@ -73,7 +74,7 @@ bool Reader::readMap(std::string mapLoc)
 			ss >> y;
 			ss.str(""); ss.clear();		//Clears stringstream
 
-			for (int j = 5; j < temp.size(); j++)
+			for (int j = 5; j < temp.size() - 1; j++)
 			{
 				ss << temp.at(j);
 				ss >> tempEdge;
@@ -81,7 +82,12 @@ bool Reader::readMap(std::string mapLoc)
 
 				ss.str(""); ss.clear();		//Clears stringstream for next iteration
 			}
-			vertices.push_back(Territory(sf::Vector2f(x, y), name, continentID, countryID, edges));
+
+			ss << temp.at(temp.size() - 1); //Read in Heuristic
+			ss >> heuristic;
+			ss.str(""); ss.clear(); //Clears stringstream
+
+			vertices.push_back(Territory(sf::Vector2f(x, y), name, continentID, countryID, heuristic, edges));
 		}
 	}
 	catch(std::exception &e)

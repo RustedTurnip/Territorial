@@ -12,10 +12,11 @@ Constructor -- Destructor
 should be set when class is created, if otherwise, then error has occured
 default value = "Error"
 */
-Territory::Territory(std::string name, int continent, int territoryID, std::vector<int> edges)
+Territory::Territory(std::string name, int continent, int territoryID, int heuristic, std::vector<int> edges)
 	: name(name)
 	, units(0)
-	, territoryID(territoryID){
+	, territoryID(territoryID)
+	, heuristic(heuristic){
 
 	this->continent = static_cast<Identifiers::Continent>(continent);	//Set conntinent enum
 	setNeighbours(edges);
@@ -24,11 +25,12 @@ Territory::Territory(std::string name, int continent, int territoryID, std::vect
 /*!
 	\brief constructor that additionally sets the Terrirories coordinates (for overlay)
 */
-Territory::Territory(sf::Vector2f coords, std::string name, int continent, int territoryID, std::vector<int> edges)
+Territory::Territory(sf::Vector2f coords, std::string name, int continent, int territoryID, int heuristic, std::vector<int> edges)
 	: name(name)
 	, units(0)
 	, territoryID(territoryID)
-	, coords(coords) {
+	, coords(coords) 
+	, heuristic(heuristic){
 
 	overlaySet = true;
 	this->continent = static_cast<Identifiers::Continent>(continent);	//Set conntinent enum
@@ -48,6 +50,7 @@ Territory::Territory(const Territory& obj) {
 	territoryID = obj.getTerritoryID();
 	overlaySet = obj.getOverlaySet();
 	neighbours = obj.getNeighbours();
+	heuristic = obj.getHeuristic();
 
 	/* TEMP - replcae with copying of object (add copy constructor to UnitDisplay class) */
 	unitDisplay.setColour(obj.getUnitDisplay().getColour());
