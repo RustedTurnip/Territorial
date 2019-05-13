@@ -81,7 +81,7 @@ bool Reader::readMap(std::string mapLoc)
 
 				ss.str(""); ss.clear();		//Clears stringstream for next iteration
 			}
-			vertices.push_back(Territory(sf::Vector2f(x, y), name, continentID, countryID));
+			vertices.push_back(Territory(sf::Vector2f(x, y), name, continentID, countryID, edges));
 		}
 	}
 	catch(std::exception &e)

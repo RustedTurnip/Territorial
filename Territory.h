@@ -41,11 +41,13 @@ class Territory {
 
 		size_t currentPlayer;
 
-		std::set<Territory*> neighbours;	/*!< Effectively makes this class Adjacency List for Graph */
+		std::set<int> neighbours; /*!< Effectively makes this class Adjacency List for Graph, using Territory IDs  */
 
 		/* In Game Attributes */
 		size_t units;	/*!< Each Territory has a number of units, for battle */
 		bool allocated = false; //For unit placement
+		
+		void setNeighbours(std::vector<int>); //TEMP
 
 	public:
 		/* Methods */
@@ -56,8 +58,8 @@ class Territory {
 	public:
 		/* Constructor -- Destructor */
 		//Territory(std::string = "Error");
-		Territory(std::string = "Error", int = 6, int = -1);	//6 = ContinentError
-		Territory(sf::Vector2f, std::string = "Error", int = 6, int = -1);	//6 = ContinentError
+		Territory(std::string = "Error", int = 6, int = -1, std::vector<int> = std::vector<int>());	//6 = ContinentError
+		Territory(sf::Vector2f, std::string = "Error", int = 6, int = -1, std::vector<int> = std::vector<int>());	//6 = ContinentError
 		Territory(const Territory&);	//Copy constructor
 		~Territory();
 
@@ -70,6 +72,7 @@ class Territory {
 		sf::Vector2f getCoords() const { return coords; };
 		const UnitDisplay& getUnitDisplay() const { return unitDisplay; };
 		const sf::Sprite& getOverlay() const { return overlaySprite; };
+		std::set<int> getNeighbours() const { return neighbours; };
 
 		const sf::Sprite& getShape() const { return territoryShapeSprite; };
 
@@ -86,7 +89,7 @@ class Territory {
 
 		void positionUnitCounter(sf::Vector2f);
 		void setPlayer(size_t playerNum) { currentPlayer = playerNum; };
-
+		
 };
 
 #endif // !TERRITORY_H

@@ -12,18 +12,19 @@ Constructor -- Destructor
 should be set when class is created, if otherwise, then error has occured
 default value = "Error"
 */
-Territory::Territory(std::string name, int continent, int territoryID)
+Territory::Territory(std::string name, int continent, int territoryID, std::vector<int> edges)
 	: name(name)
 	, units(0)
 	, territoryID(territoryID){
 
 	this->continent = static_cast<Identifiers::Continent>(continent);	//Set conntinent enum
+	setNeighbours(edges);
 }
 
 /*!
 	\brief constructor that additionally sets the Terrirories coordinates (for overlay)
 */
-Territory::Territory(sf::Vector2f coords, std::string name, int continent, int territoryID)
+Territory::Territory(sf::Vector2f coords, std::string name, int continent, int territoryID, std::vector<int> edges)
 	: name(name)
 	, units(0)
 	, territoryID(territoryID)
@@ -31,6 +32,7 @@ Territory::Territory(sf::Vector2f coords, std::string name, int continent, int t
 
 	overlaySet = true;
 	this->continent = static_cast<Identifiers::Continent>(continent);	//Set conntinent enum
+	setNeighbours(edges);
 	//loadOverlay();
 }
 
@@ -45,6 +47,7 @@ Territory::Territory(const Territory& obj) {
 	continent = obj.getContinent();
 	territoryID = obj.getTerritoryID();
 	overlaySet = obj.getOverlaySet();
+	neighbours = obj.getNeighbours();
 
 	/* TEMP - replcae with copying of object (add copy constructor to UnitDisplay class) */
 	unitDisplay.setColour(obj.getUnitDisplay().getColour());
@@ -149,4 +152,10 @@ void Territory::positionUnitCounter(sf::Vector2f offset) {
 	position.y += overlayText.getSize().y / 2;
 
 	unitDisplay.setPosition(position);
+}
+
+void Territory::setNeighbours(std::vector<int> edges) {
+	for (int i : edges) {
+		neighbours.insert(i);
+	}
 }
