@@ -8,6 +8,8 @@ const std::string Territorial::version = "v0.7.0-dev";	/* At this point you chan
 const sf::Time Territorial::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 const float Territorial::FRAMERATE_LIMIT = 60.f;
 
+std::map<int, Territory&> Territorial::map_global = std::map<int, Territory&>();
+
 /* Statistics static variables initialisation */
 size_t Territorial::frameRateMonitor = 0;
 size_t Territorial::frameRateActual = 0;

@@ -89,6 +89,8 @@ class Territory {
 
 		void positionUnitCounter(sf::Vector2f);
 		void setPlayer(size_t playerNum) { currentPlayer = playerNum; };
+
+		bool isNeigbour(int);
 		
 };
 

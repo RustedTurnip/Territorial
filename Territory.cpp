@@ -159,3 +159,11 @@ void Territory::setNeighbours(std::vector<int> edges) {
 		neighbours.insert(i);
 	}
 }
+
+bool Territory::isNeigbour(int id) {
+
+	if (neighbours.find(id) != neighbours.end())
+		return true;
+	return false;
+}
+

@@ -7,6 +7,7 @@
 #include <string>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include "Territory.h"
 
 /*
  *\class Territorial : This class only contains static data. It acts as a host for global variables
@@ -37,6 +38,10 @@ public:
 	
 	/* Game's GLobal Resources */
 	static sf::Font mainFont;
+
+	//TEMP - GLOBAL MAP ACCESS
+	static std::map<int, Territory&> map_global;
+	//!TEMP
 	
 	/* Getters */
 	static size_t getFrameRate() { return frameRateActual; };

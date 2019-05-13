@@ -2,6 +2,7 @@
 #include "Territorial.h"
 #include "Reader.h"
 #include "Mouse.h"
+#include <list>
 
 /*!
  * Constructor
@@ -73,6 +74,12 @@ bool Map::load(std::string loc) {
 		mapSplit.at(territories.at(i).getContinent()).push_back(&territories.at(i));
 		territories.at(i).positionUnitCounter(mapBackSprite.getPosition());
 	}
+
+	//TEMP
+	for (Territory& t : territories) {
+		Territorial::map_global.insert(std::pair<int, Territory&>(t.getTerritoryID(), t));
+	}
+	//!TEMP
 
 	return true;
 }
@@ -217,8 +224,12 @@ Map::MapEvents Map::handleMouseClick() {
 			}
 			else if (friendlySelectionOne != nullptr) { //If place to attack from already selected
 				if (inFocus->getPlayer() != currentPlayer->getPlayerNum()) { //Selecting place to attack from
-					enemySelectionOne = inFocus;
-					return Battle;
+					//Check if adjacent
+					if (inFocus->isNeigbour(friendlySelectionOne->getTerritoryID())) {
+						enemySelectionOne = inFocus;
+						return Battle;
+					}
+					return None;
 				}
 			}
 		}
@@ -241,6 +252,11 @@ Map::MapEvents Map::handleMouseClick() {
 					if (friendlySelectionOne->getTerritoryID() == inFocus->getTerritoryID())
 						return None;
 					friendlySelectionTwo = inFocus;
+					if (!isPath()) {
+						friendlySelectionOne = nullptr;
+						friendlySelectionTwo = nullptr;
+						return None;
+					}
 					return Fortify;
 				}
 			}
@@ -258,6 +274,60 @@ bool Map::allocate(Territory& territory) {
 		territory.setUnits(territory.getUnits() + 1);
 		currentPlayer->allocateUnit();
 		return true;
+	}
+
+	return false;
+}
+
+bool Map::isPath() {
+	
+	//TYPEDEFs
+	typedef std::map<int, std::set<int>> map;
+	typedef std::pair<int, std::set<int>> map_pair;
+	
+	map occupied = map();
+
+	for (Territory& t : territories) {
+	
+		if (t.getPlayer() == currentPlayer->getPlayerNum()) {
+			//Build adjacency list only for occupied territories
+			std::set<int> s = std::set<int>();
+			for (int i : t.getNeighbours()) {
+				if (territories.at(i).getPlayer() == currentPlayer->getPlayerNum()) {
+					s.insert(i);
+				}
+			}
+			occupied.insert(map_pair(t.getTerritoryID(), s));
+		}
+	}
+
+	int source = friendlySelectionOne->getTerritoryID();
+	int destination = friendlySelectionTwo->getTerritoryID();
+	
+	std::set<int> visited = std::set<int>();
+	std::list<int> queue = std::list<int>();
+	queue.push_back(source);
+	visited.insert(source);
+	int current = source;
+	
+	//Breadth-first traversal
+	while (!queue.empty()) {
+		
+		current = queue.front();
+		queue.pop_front();
+
+		if (current == destination)
+			return true;
+
+		for (int i : occupied.at(current)) {
+			if (visited.find(i) == visited.end()) { //If not visited
+				queue.push_back(i);
+				visited.insert(i);
+			}
+			else {
+				continue;
+			}
+		}
 	}
 
 	return false;

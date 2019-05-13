@@ -52,6 +52,8 @@ private:
 private:
 	/* General methods */
 	bool allocate(Territory&);
+	bool isPath();
+
 
 public:
 	/* Constructor */
