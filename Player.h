@@ -19,6 +19,7 @@ class Player {
 		sf::Color playerColour;
 
 		size_t reserves;
+		bool out = false;
 		
 	public:
 		enum PlayerAction {PlaceUnit, Attack, Fortify, EndTurn, DoNothing}; //For now units will be placed one at a time
@@ -39,6 +40,8 @@ class Player {
 
 		//TEMP - to force polymorphism
 		virtual void virtual_func() {};
+		bool isPLayerOut() { return out; };
+		bool knockOutPlayer() { out = true; };
 };
 
 #endif /* !PLAYER_H */

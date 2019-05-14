@@ -35,57 +35,148 @@ void Game::update() {
 
 	//TEMP - HANDLE PC PLAYER ACTIONS
 	if (players.at(currentPlayer)->getPlayerType() == Player::PC) {
-		
+
 		PCPlayer* current = dynamic_cast<PCPlayer*>(players.at(currentPlayer));
+		//if (map.getCurrentState() == Map::MapState::Selection) {
+		//
+		//	if(!pcTurnActive && !pcTurnActiveLast){ //If turn hasn't already started, start it
+		//		current->selectTerritory();
+		//		pcTurnActive = true;
+		//		pcTurnActiveLast = true;
+		//	}
+		//	else if (pcTurnActiveLast == true && pcTurnActive == false) { //If turn was active last iteration but not anymore
+		//		
+		//		//Check that selection is finished
+		//		bool flag = false;
+		//		for (auto a : Territorial::map_global) {
+		//			if (!a.second.isAllocated())
+		//				flag = true;
+		//		}
+		//		if (!flag)
+		//			map.setCurrentState(Map::MapState::UnitDistribution);
+		//		
+		//		nextPlayer();
+		//		pcTurnActive = false;
+		//		pcTurnActiveLast = false;
+		//	}
+		//	else if (current->isTurnOver()) {
+		//		current->endTurn();
+		//		pcTurnActive = false;
+		//	}
+		//}
+		//else if (map.getCurrentState() == Map::MapState::UnitDistribution) {
+		//	if (!pcTurnActive && !pcTurnActiveLast) { //If turn hasn't already started, start it
+		//		current->placeUnit();
+		//		pcTurnActive = true;
+		//		pcTurnActiveLast = true;
+		//	}
+		//	else if (pcTurnActiveLast == true && pcTurnActive == false) { //If turn was active last iteration but not anymore
+
+		//		//Check that selection is finished
+		//		if (current->getPlayerNum() + 1 == players.size()) {
+		//			if(current->getReserves() == 0)
+		//				map.setCurrentState(Map::MapState::GamePlacement);
+		//		}					
+
+		//		nextPlayer();
+		//		pcTurnActive = false;
+		//		pcTurnActiveLast = false;
+		//	}
+		//	else if (current->isTurnOver()) {
+		//		current->endTurn();
+		//		pcTurnActive = false;
+		//	}
+		//}
+		//else if (map.getCurrentState() == Map::MapState::GamePlacement) {
+		//	if (!pcTurnActive && !pcTurnActiveLast) { //If turn hasn't already started, start it
+		//		current->placeUnit();
+		//		pcTurnActive = true;
+		//		pcTurnActiveLast = true;
+		//	}
+		//	else if (pcTurnActiveLast == true && pcTurnActive == false) { //If turn was active last iteration but not anymore
+
+		//		//Check that selection is finished
+		//		if (current->getReserves() == 0 && map.getCurrentState() == Map::MapState::UnitDistribution){
+		//			map.setCurrentState(Map::MapState::GamePlacement);
+		//		}
+		//		if(current->getReserves() <= 0)
+		//			map.setCurrentState(Map::MapState::GameBattle);
+		//		pcTurnActive = false;
+		//		pcTurnActiveLast = false;
+		//	}
+		//	else if (current->isTurnOver()) {
+		//		current->endTurn();
+		//		pcTurnActive = false;
+		//	}
+		//}
+		//else if (map.getCurrentState() == Map::MapState::GameBattle) {
+		//	if (!pcTurnActive && !pcTurnActiveLast) { //If turn hasn't already started, start it
+		//		current->battle();
+		//		pcTurnActive = true;
+		//		pcTurnActiveLast = true;
+		//	}
+		//	else if (pcTurnActiveLast == true && pcTurnActive == false) { //If turn was active last iteration but not anymore
+
+		//		map.setCurrentState(Map::MapState::GamePlacement);
+		//		nextPlayer();
+		//		pcTurnActive = false;
+		//		pcTurnActiveLast = false;
+		//	}
+		//	else if (current->isTurnOver()) {
+		//		current->endTurn();
+		//		pcTurnActive = false;
+		//	}
+		//}
 		if (map.getCurrentState() == Map::MapState::Selection) {
-		
-			if(!pcTurnActive && !pcTurnActiveLast){ //If turn hasn't already started, start it
-				current->selectTerritory();
-				pcTurnActive = true;
-				pcTurnActiveLast = true;
+			
+			current->selectTerritory();
+			
+			//Check that selection is finished
+			bool flag = false;
+			for (auto a : Territorial::map_global) {
+				if (!a.second.isAllocated())
+					flag = true;
 			}
-			else if (pcTurnActiveLast == true && pcTurnActive == false) { //If turn was active last iteration but not anymore
-				
-				//Check that selection is finished
-				bool flag = false;
-				for (auto a : Territorial::map_global) {
-					if (!a.second.isAllocated())
-						flag = true;
-				}
-				if (!flag)
-					map.setCurrentState(Map::MapState::UnitDistribution);
-				
-				nextPlayer();
-				pcTurnActive = false;
-				pcTurnActiveLast = false;
-			}
-			else if (current->isTurnOver()) {
-				current->endTurn();
-				pcTurnActive = false;
-			}
+			if (!flag)
+				map.setCurrentState(Map::MapState::UnitDistribution);
+			
+			nextPlayer();
 		}
 		else if (map.getCurrentState() == Map::MapState::UnitDistribution) {
-			if (!pcTurnActive && !pcTurnActiveLast) { //If turn hasn't already started, start it
-				current->placeUnit();
-				pcTurnActive = true;
-				pcTurnActiveLast = true;
-			}
-			else if (pcTurnActiveLast == true && pcTurnActive == false) { //If turn was active last iteration but not anymore
+			current->placeUnit();
 
-				//Check that selection is finished
-				if (current->getPlayerNum() + 1 == players.size()) {
-					if(current->getReserves() == 0)
-						map.setCurrentState(Map::MapState::GamePlacement);
-				}					
+			if (current->getReserves() <= 0) {
+				map.setCurrentState(Map::MapState::GamePlacement);
+				allocationAmount = 3;
+			}
 
-				nextPlayer();
-				pcTurnActive = false;
-				pcTurnActiveLast = false;
-			}
-			else if (current->isTurnOver()) {
-				current->endTurn();
-				pcTurnActive = false;
-			}
+			nextPlayer();
+		}
+		else if (map.getCurrentState() == Map::MapState::GamePlacement) {
+			current->placeUnit();
+			if (current->getReserves() == 0)
+				map.setCurrentState(Map::MapState::GameBattle);
+		}
+		else if (map.getCurrentState() == Map::MapState::GameBattle){
+			current->battle();
+			
+			//TEMP
+			//std::vector<std::pair<int, bool>> out = std::vector<std::pair<int, bool>>();
+			//std::cout << "PLAYER SIZE: " << players.size()  << std::endl;
+			//for (int i = 0; i < players.size(); i++) {
+			//	out.push_back(std::pair<int, bool>(i, true));
+			//}
+			//for (auto a : Territorial::map_global) {
+			//	std::cout << "PLAYER NO: " << a.second.getPlayer() << std::endl;
+			//	out.at(a.second.getPlayer()-1).second = false;
+			//}
+			//for (auto i : out) {
+			//	if (i.second == false)
+			//		players.at(i.first)->knockOutPlayer();
+			//}
+			//!TEMP
+			map.setCurrentState(Map::MapState::GamePlacement);
+			nextPlayer();
 		}
 	}
 	//TEMP
@@ -360,7 +451,28 @@ void Game::nextPlayer() {
 	else
 		currentPlayer++;
 
-	size_t units = players.at(currentPlayer)->getReserves() + allocationAmount;
+	if (players.at(currentPlayer)->isPLayerOut()) {
+		nextPlayer();
+		return;
+	}
+
+	int bonus = 0;
+
+	//TEMP
+	int fill[6] = {0,0,0,0,0,0};
+	for (auto a : Territorial::map_global) {
+		if (a.second.getPlayer() == currentPlayer) {
+			fill[a.second.getContinent()] += 1;
+		}
+	}
+	for (int i = 0; i < 6; i++) {
+		if (fill[i] == CONTINENT_SIZE[i]) {
+			bonus += CONTINENT_REWARD[i];
+		}
+	}
+	//!TEMP
+
+	size_t units = players.at(currentPlayer)->getReserves() + allocationAmount + bonus;
 	players.at(currentPlayer)->setReserves(units);
 	
 	//Move to next player

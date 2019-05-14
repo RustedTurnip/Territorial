@@ -44,7 +44,7 @@ int main()
 		while (timeSinceLastUpdate > Territorial::TIME_PER_FRAME) {	/* Skip render until events caught up */
 			timeSinceLastUpdate -= Territorial::TIME_PER_FRAME;
 			handleEvents();
-			update();
+			//update();
 		}
 
 		Territorial::updateStatistics(elapsedTime);
