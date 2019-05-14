@@ -259,8 +259,8 @@ void BattleOverlay::attack() {
 		defenceRolls.push_back(dice.roll());
 
 	//Order rolls (ascending)
-	std::sort(attackRolls.begin(), attackRolls.end());
-	std::sort(defenceRolls.begin(), defenceRolls.end());
+	std::sort(attackRolls.begin(), attackRolls.end(), std::greater<int>());
+	std::sort(defenceRolls.begin(), defenceRolls.end(), std::greater<int>());
 
 	//Comparison no. (lesser of the two)
 	size_t comparisonNum = (attacking < defending) ? attacking : defending;
