@@ -19,8 +19,6 @@ class Player {
 		sf::Color playerColour;
 
 		size_t reserves;
-
-		//std::set<std::string, Territory&> territories = std::set<std::string, Territory&>();
 		
 	public:
 		enum PlayerAction {PlaceUnit, Attack, Fortify, EndTurn, DoNothing}; //For now units will be placed one at a time
@@ -38,6 +36,9 @@ class Player {
 		void allocateUnit() { reserves--; };
 		size_t getReserves() { return reserves; };
 		PlayerType getPlayerType() { return playerType; };
+
+		//TEMP - to force polymorphism
+		virtual void virtual_func() {};
 };
 
 #endif /* !PLAYER_H */

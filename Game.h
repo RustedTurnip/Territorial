@@ -49,6 +49,9 @@ private:
 	TanimatedButton nextButton = TanimatedButton(Territorial::mainFont, sf::Vector2f(250, 50));
 
 	bool nextButtonActive();
+
+	bool pcTurnActive = false;
+	bool pcTurnActiveLast = false;
 	
 public:
 	/* Constructor */

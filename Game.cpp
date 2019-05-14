@@ -32,6 +32,64 @@ bool Game::load() {
 }
 
 void Game::update() {
+
+	//TEMP - HANDLE PC PLAYER ACTIONS
+	if (players.at(currentPlayer)->getPlayerType() == Player::PC) {
+		
+		PCPlayer* current = dynamic_cast<PCPlayer*>(players.at(currentPlayer));
+		if (map.getCurrentState() == Map::MapState::Selection) {
+		
+			if(!pcTurnActive && !pcTurnActiveLast){ //If turn hasn't already started, start it
+				current->selectTerritory();
+				pcTurnActive = true;
+				pcTurnActiveLast = true;
+			}
+			else if (pcTurnActiveLast == true && pcTurnActive == false) { //If turn was active last iteration but not anymore
+				
+				//Check that selection is finished
+				bool flag = false;
+				for (auto a : Territorial::map_global) {
+					if (!a.second.isAllocated())
+						flag = true;
+				}
+				if (!flag)
+					map.setCurrentState(Map::MapState::UnitDistribution);
+				
+				nextPlayer();
+				pcTurnActive = false;
+				pcTurnActiveLast = false;
+			}
+			else if (current->isTurnOver()) {
+				current->endTurn();
+				pcTurnActive = false;
+			}
+		}
+		else if (map.getCurrentState() == Map::MapState::UnitDistribution) {
+			if (!pcTurnActive && !pcTurnActiveLast) { //If turn hasn't already started, start it
+				current->placeUnit();
+				pcTurnActive = true;
+				pcTurnActiveLast = true;
+			}
+			else if (pcTurnActiveLast == true && pcTurnActive == false) { //If turn was active last iteration but not anymore
+
+				//Check that selection is finished
+				if (current->getPlayerNum() + 1 == players.size()) {
+					if(current->getReserves() == 0)
+						map.setCurrentState(Map::MapState::GamePlacement);
+				}					
+
+				nextPlayer();
+				pcTurnActive = false;
+				pcTurnActiveLast = false;
+			}
+			else if (current->isTurnOver()) {
+				current->endTurn();
+				pcTurnActive = false;
+			}
+		}
+	}
+	//TEMP
+
 	if (fortifyOverlay.isFortifyCommit()) {
 		nextPlayer();
 		fortifyOverlay.resetFortifyCommit();
@@ -66,6 +124,12 @@ void Game::drawGame(sf::RenderWindow& window) {
 * \brief responsible for handling game events
 */
 void Game::handleEvents(sf::Event event){
+
+	//TEMP
+	if (players.at(currentPlayer)->getPlayerType() == Player::PC) {
+		return;
+	}
+	//!TEMP
 
 	if (battleOverlay.isOpen()) {
 		battleOverlay.handleEvents(event);
