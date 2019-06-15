@@ -25,8 +25,6 @@ private:
 	FortifyOverlay fortifyOverlay = FortifyOverlay();
 	std::vector<Player*> players = std::vector<Player*>();
 	size_t currentPlayer = 0;
-	const int CONTINENT_REWARD[6] = {5,2,3,5,7,2};
-	const int CONTINENT_SIZE[6] = { 9,4,6,7,12,4 };
 	
 	/* Other variables */
 	size_t allocationAmount = 0; //Number of units to place at the beginning of a turn
